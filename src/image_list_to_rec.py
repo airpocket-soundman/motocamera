@@ -8,7 +8,8 @@
 # on Raspberry Pi Zero2W
 # image sensor:IMX708
 # ========================================
-# imwriteをマルチプロセス化 ムービー完了判定タイマーをmulti thread化
+# マルチスレッド、マルチプロセス不使用
+
 
 import cv2
 import os
@@ -21,7 +22,6 @@ from picamera2 import Picamera2
 import threading
 import shutil
 import re
-from multiprocessing import Process
 import libcamera
 
 pin_shutter         = 23    # shutter timing picup 
@@ -38,20 +38,20 @@ pin_dip6            = 21
 number_still        = 0
 number_cut          = 0
 number_frame        = 0
-raw_size            = 1     #0:IMX219 cine, 1:IMX708 cine 2:IMX219 still 3:IMX708 still
+raw_size            = 1     #0:1640 x 1232      1:2304 x 1296      2:3280 x 2464   3:4608 x 2592  4:320 x 240   0:IMX219 cine, 1:IMX708 cine 2:IMX219 still 3:IMX708 still
 raw_pix             = [[1640, 1232], [2304, 1296], [3280, 2464], [4608, 2592], [320, 240]]
-rec_size            = 4     #0: cine normal 1: cine L     2:IMX219 full  3:IMX708 full  4:high speed cine
-rec_pix             = [[ 640,  480], [ 800,  600], [3208, 2464], [4608, 2592], [320, 240]]
+rec_size            = 0     #0: 640 x  480      1: 640 x  480      2:3280 x 2464   3:4608 x 2592  4:320 x 240   4:high speed cine
+rec_pix             = [[ 640,  480], [ 640,  480], [3208, 2464], [4608, 2592], [320, 240]]
 time_log            = []
 time_log2           = []
 time_log3           = []
 time_log4           = []
-exposure_time       = 10000  # 1000-100000  defo:5000
+exposure_time       = 1000  # 1000-100000  defo:5000
 analogue_gain       = 2.0	# 1.0-20.0    defo:2.0
-shutter_delay_time  = 0 * 0.001   # シャッター動作を検出してから画像取得するまでの遅延時間 ms
+shutter_delay_time  = 5 * 0.001   # シャッター動作を検出してから画像取得するまでの遅延時間 ms
+image_list          = []
 
-#threads             = []
-idle_timer          = None  # ムービー撮影判定用timer    
+threads = []
 
 camera_mode         = 0     #0:movie,   1:still
 speed_mode          = 0     #0:nomal,   1:high speed
@@ -60,8 +60,9 @@ film_mode           = 0     #0:mono,    1:mono,     2:color,    3:color,
 is_shooting         = False
 recording_completed = True
 
+
 rec_finish_threshold_time    = 1      #sec  *detect rec button release
-number_max_frame    = 960               #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
+number_max_frame    = 100               #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
 record_fps          = 16                #MP4へ変換する際のFPS設定値
 tmp_folder_path     = "/tmp/img/"
 share_folder_path   = os.path.expanduser("~/share/")
@@ -188,34 +189,27 @@ def set_camera_mode():
     camera.set_controls({"ExposureTime": exposure_time, "AnalogueGain": analogue_gain * (2 ** gain_mode)})
     camera.start()
 
-rec_finish_threshold_time
-# 最後にシャッターが押された時刻を更新する関数
-def update_last_shot_time():
-    global idle_timer
-    # 既存のタイマーがあればキャンセル
-    if idle_timer is not None:
-        idle_timer.cancel()
-    # 新しいタイマーを設定
-    idle_timer = threading.Timer(rec_finish_threshold_time, movie_save)
-    idle_timer.start()
-
 # シャッター開を検出した場合の処理
 def on_shutter_open(channel):
     global time_log, threads, number_frame, is_shooting
+    time_log.append(time.time())
     if recording_completed:
-        time_log.append(time.time())
         if camera_mode == 0:
             if (number_frame <= number_max_frame and recording_completed == True):
+                
                 is_shooting = True
+                
+                #t = threading.Thread(target = get_images, args=(number_frame, camera))    
+                #t.start()
+                #threads.append(t)
                 get_images(number_frame, camera)
-                update_last_shot_time()
                 number_frame += 1
-    
+        
         if camera_mode == 1:
             get_still_image()
     else:
-        print("recording nowe")
-
+        print("recording now")
+    
 
 # シャットダウンボタンが押されたとき
 def on_shutdown_button_pressed(channel):
@@ -224,28 +218,21 @@ def on_shutdown_button_pressed(channel):
     #command = ["sudo", "shutdown", "-h", "now"]
     #subprocess.run(command)
 
-# 動画用画像の一時保存プロセス
-def save_image_process(image_path, frame):
-    global time_log5
-    log5 = time.time()
-    cv2.imwrite(image_path, frame)
-    log6 = time.time()
-    print(log6 - log5)
-
 #ムービー用画像取得
 def get_images(image_index, camera):
     global time_log2, time_log3, time_log4
+
     time_log2.append(time.time())
     time.sleep(shutter_delay_time)
     frame = camera.capture_array()
-    time_log3.append(time.time())	
-
-    # マルチプロセスで画像保存
-    image_path = tmp_folder_path + f"image_{image_index}.jpg"
-    p = Process(target=save_image_process, args=(image_path, frame))
-    p.start()
-
+    time_log3.append(time.time())
+    image_list.append(frame)
+    #cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame)
+    #cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 10])
     time_log4.append(time.time())
+    print(image_index)
+
+
 
 #Still写真を撮る処理
 def get_still_image():
@@ -262,7 +249,7 @@ def get_still_image():
 # ムービー撮影後、画像を連結してムービーファイルを保存する。
 def movie_save():
     GPIO.output(pin_led_red, True)
-    global number_frame, number_cut, recording_completed, time_log, time_log2, time_log3, time_log4
+    global number_frame, number_cut, recording_completed, image_list
     recording_completed = False
     print("save movie")
     movie_file_path = share_folder_path + device_name + "{:03}".format(number_cut) + ".mp4"
@@ -276,7 +263,8 @@ def movie_save():
         print("can't be opened")
         sys.exit()
     for i in range(number_frame):
-        frame = cv2.imread(tmp_folder_path + "image_" + str(i) + ".jpg")
+        #frame = cv2.imread(tmp_folder_path + "image_" + str(i) + ".jpg")
+        frame = image_list[i]
         if film_mode == "mono":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         video.write(frame)
@@ -285,32 +273,22 @@ def movie_save():
     recording_completed = True
     number_cut += 1
     number_frame = 0
+    image_list = []
     GPIO.output(pin_led_red, False)
-    for i in range(len(time_log)-1):
-        print(time_log[i + 1] - time_log[i],":",time_log3[i]-time_log2[i],":", time_log4[i]-time_log3[i])
-    time_log  = []
-    time_log2 = []
-    time_log3 = []
-    time_log4 = []
 
 # メイン
 if __name__ == "__main__":
-
-    # LED点灯初期化
-    GPIO.output(pin_led_green, True)
-    GPIO.output(pin_led_red, False)
-
-    # イメージ仮保存用フォルダが存在しない場合は作成
     if not os.path.exists(tmp_folder_path):
+        # フォルダが存在しない場合は作成
         os.makedirs(tmp_folder_path)
         print(f'{tmp_folder_path}を作成しました。')
     else:
         print(f'{tmp_folder_path}は既に存在しています。')
-
     # シャッター動作検出時のコールバック関数
     GPIO.add_event_detect(pin_shutter,  GPIO.RISING,    callback = on_shutter_open, bouncetime = 5)
     # リセットボタン検出時のコールバック関数
     GPIO.add_event_detect(pin_shutdown, GPIO.FALLING,   callback = on_shutdown_button_pressed, bouncetime = 100)
+
     # dipswitchが切り替わった時のコールバック関数
     GPIO.add_event_detect(pin_dip1,     GPIO.BOTH,    callback = read_mode, bouncetime = 5)
     GPIO.add_event_detect(pin_dip2,     GPIO.BOTH,    callback = read_mode, bouncetime = 5)
@@ -318,13 +296,29 @@ if __name__ == "__main__":
     GPIO.add_event_detect(pin_dip4,     GPIO.BOTH,    callback = read_mode, bouncetime = 5)
     GPIO.add_event_detect(pin_dip5,     GPIO.BOTH,    callback = read_mode, bouncetime = 5)
     GPIO.add_event_detect(pin_dip6,     GPIO.BOTH,    callback = read_mode, bouncetime = 5)
-
-    # dipスイッチの状態を読み取り、撮影モード設定
     read_mode(99)
-
     # シェアフォルダ内の動画、静止画ファイルの最大番号を取得
     find_max_number_in_share_folder()
     print("動画と静止画の最大番号は",number_cut,number_still)
 
+    GPIO.output(pin_led_green, True)
+    GPIO.output(pin_led_red, False)
+
+
     while(True):
-        time.sleep(100)
+        time.sleep(1)
+
+        if is_shooting:
+            if time.time() - time_log[-1] >= rec_finish_threshold_time:
+                is_shooting = False
+        
+        else:
+            if number_frame > 0:
+                movie_save()
+                for i in range(len(time_log4)-1):
+                    print(time_log[i + 1] - time_log[i],":",time_log3[i]-time_log2[i],":", time_log4[i]-time_log3[i])
+                time_log  = []
+                time_log2 = []
+                time_log3 = []
+                time_log4 = []
+
