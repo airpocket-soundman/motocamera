@@ -51,3 +51,28 @@ gain設定
 |off|on |モノクローム|
 |on |off|カラー|
 |on |on |カラー|
+
+# GPIO設定
+## motocamera
+pin_shutter         = 23    # shutter timing picup 
+pin_led_red         = 24
+pin_led_green       = 25
+pin_shutdown        =  8
+pin_dip1            =  7
+pin_dip2            =  1
+pin_dip3            = 12
+pin_dip4            = 16
+pin_dip5            = 20
+pin_dip6            = 21
+
+## Bolex
+pin_shutter         = 25    # shutter timing picup 
+pin_led_red         = 15
+pin_led_green       = 18
+pin_shutdown        = 14
+pin_dip1            =  8
+pin_dip2            =  7
+pin_dip3            =  1
+pin_dip4            = 12
+pin_dip5            = 16
+pin_dip6            = 20

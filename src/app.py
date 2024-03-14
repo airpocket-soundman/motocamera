@@ -5,10 +5,10 @@ import time
 import numpy as np
 from typing import List
 
-app = Flask(__name__, template_folder='temlates')   #templates_folderはデフォルトで'templates'なので本来定義は不要
+app = Flask(__name__, template_folder='templates')   #templates_folderはデフォルトで'templates'なので本来定義は不要
 
-CAP_WIDTH   = 320                   #出力動画の幅
-CAP_HEIGHT  = 240                   #出力動画の高さ
+CAP_WIDTH   = 640                   #出力動画の幅
+CAP_HEIGHT  = 480                   #出力動画の高さ
 LAW_WIDTH   = 1640                  #カメラ内のraw画像の幅
 LAW_HEIGHT  = 1232                  #カメラ内のraw画像の高さ
 
@@ -36,6 +36,7 @@ def gen_frames():
 
         frame = cap.capture_array()
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame = cv2.flip(frame,-1)
 
         #フレームデータをjpgに圧縮
         ret, buffer = cv2.imencode('.jpg',frame)

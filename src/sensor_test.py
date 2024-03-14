@@ -52,9 +52,14 @@ else:
     print(f'{folder_path}は既に存在しています。')
 
 camera = Picamera2()
-#config = camera.create_preview_configuration(main = {"format": 'XRGB8888', "size": (cap_width, cap_height)})
-config = camera.create_preview_configuration(main = {"size":(cap_width, cap_height)}, raw = {"size":(raw_width, raw_height)})
+camera.rotation = 180
+config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(cap_width, cap_height)}, raw   ={"size":(raw_width, raw_height)})
+#config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(640, 480)}, raw   ={"size":(2304, 1296)}) 
+#config["transform"] = libcamera.Transform(hflip=1, vflip=1)
 camera.configure(config)
+#config = camera.create_preview_configuration(main = {"format": 'XRGB8888', "size": (cap_width, cap_height)})
+#config = camera.create_preview_configuration(main = {"size":(cap_width, cap_height)}, raw = {"size":(raw_width, raw_height)})
+#camera.configure(config)
 camera.set_controls({"ExposureTime": exposure_time, "AnalogueGain": analog_gain})
 camera.start()
 

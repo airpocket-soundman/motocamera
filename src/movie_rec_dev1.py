@@ -8,8 +8,9 @@
 # on Raspberry Pi Zero2W
 # image sensor:IMX708
 # ========================================
+# dev1.py
 # マルチスレッド、マルチプロセス不使用
-
+# 画像はframe_listに保存してそのまま保持。
 
 import cv2
 import os
@@ -54,17 +55,18 @@ number_cut          = 0
 number_frame        = 0
 raw_size            = 1     #0:1640 x 1232      1:2304 x 1296      2:3280 x 2464   3:4608 x 2592  4:320 x 240   0:IMX219 cine, 1:IMX708 cine 2:IMX219 still 3:IMX708 still
 raw_pix             = [[1640, 1232], [2304, 1296], [3280, 2464], [4608, 2592], [320, 240]]
-rec_size            = 4     #0: 640 x  480      1: 640 x  480      2:3280 x 2464   3:4608 x 2592  4:320 x 240   4:high speed cine
+rec_size            = 1     #0: 640 x  480      1: 640 x  480      2:3280 x 2464   3:4608 x 2592  4:320 x 240   4:high speed cine
 rec_pix             = [[ 640,  480], [ 640,  480], [3208, 2464], [4608, 2592], [320, 240]]
 time_log            = []
 time_log2           = []
 time_log3           = []
 time_log4           = []
-exposure_time       = 5000  # 1000-100000  defo:5000
+exposure_time       = 2000  # 1000-100000  defo:5000
 analogue_gain       = 2.0	# 1.0-20.0    defo:2.0
-shutter_delay_time  = 0 * 0.001   # シャッター動作を検出してから画像取得するまでの遅延時間 ms
+shutter_delay_time  = 50 * 0.001   # シャッター動作を検出してから画像取得するまでの遅延時間 ms
 
-threads = []
+threads             = []    #マルチスレッド管理用リスト
+frame_list          = []    #動画用画像保存リスト
 
 camera_mode         = 0     #0:movie,   1:still
 speed_mode          = 0     #0:nomal,   1:high speed
@@ -75,7 +77,7 @@ recording_completed = True
 
 
 rec_finish_threshold_time    = 1      #sec  *detect rec button release
-number_max_frame    = 960               #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
+number_max_frame    = 100               #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
 record_fps          = 16                #MP4へ変換する際のFPS設定値
 tmp_folder_path     = "/tmp/img/"
 share_folder_path   = os.path.expanduser("~/share/")
@@ -195,11 +197,18 @@ def set_camera_mode():
         rec_height  = rec_pix[3][1]
 
     print("raw_size :", raw_width, "x", raw_height, "   rec_size :", rec_width, "x", rec_height)
-    config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(rec_width, rec_height)}, raw   ={"size":(raw_width, raw_height)})
+    #config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(rec_width, rec_height)}, raw   ={"size":(raw_width, raw_height)})
+    config  = camera.create_still_configuration(
+        main={"format": 'RGB888', "size":(rec_width, rec_height)}, 
+        raw   ={"size":(raw_width, raw_height)},
+        buffer_count = 1,
+        #controls={"FrameRate": 128, "AnalogueGain": analogue_gain * (2 ** gain_mode)}
+        controls={"ExposureTime": exposure_time, "AnalogueGain": analogue_gain * (2 ** gain_mode)}
+    )
     #config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(640, 480)}, raw   ={"size":(2304, 1296)}) 
     config["transform"] = libcamera.Transform(hflip=1, vflip=1)
     camera.configure(config)
-    camera.set_controls({"ExposureTime": exposure_time, "AnalogueGain": analogue_gain * (2 ** gain_mode)})
+    #camera.set_controls({"ExposureTime": exposure_time, "AnalogueGain": analogue_gain * (2 ** gain_mode)})
     camera.start()
 
 # シャッター開を検出した場合の処理
@@ -229,16 +238,17 @@ def on_shutdown_button_pressed(channel):
 
 #ムービー用画像取得
 def get_images(image_index, camera):
-    global time_log2, time_log3, time_log4
+    global time_log2, time_log3, time_log4, frame_list
     if recording_completed:
         time_log2.append(time.time())
-        time.sleep(shutter_delay_time)
+        #time.sleep(shutter_delay_time)
         frame = camera.capture_array()
+        frame_list.append(frame)
         time_log3.append(time.time())	
-        cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame)
+        #cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame)
         #cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 10])
         time_log4.append(time.time())
-        print(image_index)
+        #print(image_index)
     else:
         print("recording now")
 
@@ -257,7 +267,7 @@ def get_still_image():
 # ムービー撮影後、画像を連結してムービーファイルを保存する。
 def movie_save():
     GPIO.output(pin_led_red, True)
-    global number_frame, number_cut, recording_completed
+    global number_frame, number_cut, recording_completed,frame_list
     recording_completed = False
     print("save movie")
     movie_file_path = share_folder_path + device_name + "{:03}".format(number_cut) + ".mp4"
@@ -271,7 +281,8 @@ def movie_save():
         print("can't be opened")
         sys.exit()
     for i in range(number_frame):
-        frame = cv2.imread(tmp_folder_path + "image_" + str(i) + ".jpg")
+        frame = frame_list[i]
+        #frame = cv2.imread(tmp_folder_path + "image_" + str(i) + ".jpg")
         if film_mode == "mono":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         video.write(frame)
@@ -280,6 +291,7 @@ def movie_save():
     recording_completed = True
     number_cut += 1
     number_frame = 0
+    frame_list = []
     GPIO.output(pin_led_red, False)
 
 # メイン
@@ -322,7 +334,7 @@ if __name__ == "__main__":
             if number_frame > 0:
                 movie_save()
                 for i in range(len(time_log)-1):
-                    print(time_log[i + 1] - time_log[i],":",time_log3[i]-time_log2[i],":", time_log4[i]-time_log3[i])
+                    print((time_log[i + 1] - time_log[i]) * 1000,":",(time_log2[i]-time_log[i])* 1000,":", (time_log3[i]-time_log[i]) * 1000)
                 time_log  = []
                 time_log2 = []
                 time_log3 = []
