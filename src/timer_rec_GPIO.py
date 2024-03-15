@@ -1,6 +1,6 @@
 # Copyright (c) 2024 yasuhiro yamashita
 # Released under the MIT license.
-# see http://open source.org/licenses/MIT
+# see http://opensource.org/licenses/MIT
 #
 # ========================================
 # pathe motocamera digitlize mod controler
@@ -8,7 +8,7 @@
 # on Raspberry Pi Zero2W
 # image sensor:IMX708
 # ========================================
-# timer_rec.pyを改変してGPIO割り込みで撮影するようにする
+# GPIO検出ではなくてタイマーで画像を取得するテスト。
 
 
 import cv2
@@ -30,18 +30,18 @@ timelog = time.time()
 number_still        = 0
 number_cut          = 0
 number_frame        = 0
-raw_size            = 4     #0:1640 x 1232      1:2304 x 1296      2:3280 x 2464   3:4608 x 2592  4:320 x 240   0:IMX219 cine, 1:IMX708 cine 2:IMX219 still 3:IMX708 still
+raw_size            = 1     #0:1640 x 1232      1:2304 x 1296      2:3280 x 2464   3:4608 x 2592  4:320 x 240   0:IMX219 cine, 1:IMX708 cine 2:IMX219 still 3:IMX708 still
 raw_pix             = [[1640, 1232], [2304, 1296], [3280, 2464], [4608, 2592], [320, 240]]
-rec_size            = 4     #0: 640 x  480      1: 640 x  480      2:3280 x 2464   3:4608 x 2592  4:320 x 240   4:high speed cine
-rec_pix             = [[ 640,  480], [ 640,  480], [3208, 2464], [4608, 2592], [320, 240]]
+rec_size            = 0     #0: 640 x  480      1: 640 x  480      2:3280 x 2464   3:4608 x 2592  4:320 x 240   4:high speed cine
+rec_pix             = [[ 640,  480], [2304, 1296], [3208, 2464], [4608, 2592], [320, 240]]
 time_log            = []
 time_log2           = []
 time_log3           = []
 time_log4           = []
 time_camera         = []
-exposure_time       = 2000  # 1000-100000  defo:5000
+exposure_time       = 5000  # 1000-100000  defo:5000
 analogue_gain       = 16	# 1.0-20.0    defo:2.0
-shutter_delay_time  = 0 * 0.001   # シャッター動作を検出してから画像取得するまでの遅延時間 ms
+shutter_delay_time  = 50 * 0.001   # シャッター動作を検出してから画像取得するまでの遅延時間 ms
 
 threads             = []    #マルチスレッド管理用リスト
 frame_list          = []    #動画用画像保存リスト
@@ -54,39 +54,16 @@ film_mode           = 0     #0:mono,    1:mono,     2:color,    3:color,
 is_shooting         = False
 recording_completed = True
 
-buffers             = 1
-meta_data           = False
+buffers             = 4
+meta_data           = True
 queue_control       = True
-
-# Bolex
-pin_shutter         = 25    # shutter timing picup 
-pin_led_red         = 15
-pin_led_green       = 18
-pin_shutdown        = 14
-pin_dip1            =  8
-pin_dip2            =  7
-pin_dip3            =  1
-pin_dip4            = 12
-pin_dip5            = 16
-pin_dip6            = 20
-
-# GPIO設定
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin_shutter,     GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_shutdown,    GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip1,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip2,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip3,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip4,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip5,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip6,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_led_red,     GPIO.OUT)
-GPIO.setup(pin_led_green,   GPIO.OUT)
+time_interval       = 0.030
+jpg_encode          = False
 
 
 rec_finish_threshold_time    = 1        #sec  *detect rec button release
 number_max_frame    = 100               #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
-record_fps          = 16                #MP4へ変換する際のFPS設定値
+record_fps          = 8                #MP4へ変換する際のFPS設定値
 tmp_folder_path     = "/tmp/img/"
 share_folder_path   = os.path.expanduser("~/share/")
 device_name         = "motocamera"
@@ -159,7 +136,7 @@ def set_camera_mode():
             "ExposureTime"          : exposure_time, 
             "AnalogueGain"          : analogue_gain,
             "FrameDurationLimits"   : (100, 100000),
-            "Sensitivity"           : 100
+            
         },
         transform       = libcamera.Transform(hflip=1, vflip=1)
     )
@@ -169,21 +146,22 @@ def set_camera_mode():
     camera.start()
 
 # timerを受けて画像を取得する関数
-def shutter(text):
+def timer_shutter(text):
     global number_frame,time_log,time_log2,time_log3,is_shooting,time_camera,meta_data
-    
-    if number_frame < number_max_frame:
-        is_shooting = True
-        print("shutter")
-        time_log.append(time.time())
-        #time.sleep(shutter_delay_time)
-        frame = camera.capture_array()
-        time_log2.append(time.time())
-        if meta_data:
-            time_camera.append(camera.capture_metadata())
-        frame_list.append(frame)
-        time_log3.append(time.time())	
-        number_frame += 1
+    is_shooting = True
+    print(number_frame)
+    time_log.append(time.time())
+    frame = camera.capture_array()
+    time_log2.append(time.time())
+    if meta_data:
+        time_camera.append(camera.capture_metadata())
+        #time_camera.append(camera.capture_metadata()["SensorTimestamp"])
+        #exposure_time_list.append(camera.capture_metadata()["ExposureTime"])
+    if jpg_encode:
+        result, frame = cv2.imencode(".jpg", frame)
+    frame_list.append(frame)
+    time_log3.append(time.time())
+    number_frame += 1
 
 # ムービー撮影後、画像を連結してムービーファイルを保存する。
 def movie_save():
@@ -201,7 +179,11 @@ def movie_save():
         print("can't be opened")
         sys.exit()
     for i in range(number_frame):
-        frame = frame_list[i]
+        if jpg_encode:
+            frame = cv2.imdecode(np.frombuffer(frame_list[i], dtype = np.uint8), cv2.IMREAD_COLOR)
+        else:
+            frame = frame_list[i]
+            
         if film_mode == "mono":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         video.write(frame)
@@ -231,6 +213,12 @@ def repeat_n_times(n, interval, function, *args):
     func_wrapper(0)  # 関数呼び出しを開始
 
 
+# テスト関数
+def print_message(message):
+    global timelog
+    print(message, "at", time.time() - timelog)
+    timelog = time.time()
+
 # メイン
 if __name__ == "__main__":
     if not os.path.exists(tmp_folder_path):
@@ -245,10 +233,10 @@ if __name__ == "__main__":
     print("動画と静止画の最大番号は",number_cut,number_still)
 
     set_camera_mode()
-    
-    # シャッター動作検出時のコールバック関数
-    GPIO.add_event_detect(pin_shutter,  GPIO.RISING,    callback = shutter, bouncetime = 5)
 
+    # 例: 3回、2秒ごとにprint_messageを呼び出し、「Test message」というメッセージを出力
+    repeat_n_times(number_max_frame, time_interval, timer_shutter, "test")
+    #repeat_n_times(20, 0.01, print_message, "Test message")
 
     while(True):
         time.sleep(1)

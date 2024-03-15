@@ -24,6 +24,7 @@ import shutil
 import re
 import libcamera
 import numpy as np
+from multiprocessing import Process
 
 timelog = time.time()
 
@@ -41,7 +42,7 @@ time_log4           = []
 time_camera         = []
 exposure_time       = 2000  # 1000-100000  defo:5000
 analogue_gain       = 16	# 1.0-20.0    defo:2.0
-shutter_delay_time  = 0 * 0.001   # シャッター動作を検出してから画像取得するまでの遅延時間 ms
+shutter_delay_time  = 50 * 0.001   # シャッター動作を検出してから画像取得するまでの遅延時間 ms
 
 threads             = []    #マルチスレッド管理用リスト
 frame_list          = []    #動画用画像保存リスト
@@ -54,9 +55,9 @@ film_mode           = 0     #0:mono,    1:mono,     2:color,    3:color,
 is_shooting         = False
 recording_completed = True
 
-buffers             = 1
+buffers             = 4
 meta_data           = False
-queue_control       = True
+queue_control       = False
 
 # Bolex
 pin_shutter         = 25    # shutter timing picup 
@@ -159,7 +160,7 @@ def set_camera_mode():
             "ExposureTime"          : exposure_time, 
             "AnalogueGain"          : analogue_gain,
             "FrameDurationLimits"   : (100, 100000),
-            "Sensitivity"           : 100
+            
         },
         transform       = libcamera.Transform(hflip=1, vflip=1)
     )
@@ -168,22 +169,35 @@ def set_camera_mode():
     camera.configure(config)
     camera.start()
 
-# timerを受けて画像を取得する関数
+def shutter_process(text, frame_list, number_frame, time_camera, meta_data):
+    print("shutter")
+    #time_log.append(time.time())
+    frame = camera.capture_array()  # 仮定: cameraは別途定義されたカメラオブジェクト
+    #time_log2.append(time.time())
+    if meta_data:
+        time_camera.append(camera.capture_metadata())
+    frame_list.append(frame)
+    #time_log3.append(time.time())
+    number_frame += 1
+
 def shutter(text):
-    global number_frame,time_log,time_log2,time_log3,is_shooting,time_camera,meta_data
+    # マルチプロセスを管理するためのリスト
+    processes = []
     
-    if number_frame < number_max_frame:
-        is_shooting = True
-        print("shutter")
-        time_log.append(time.time())
-        #time.sleep(shutter_delay_time)
-        frame = camera.capture_array()
-        time_log2.append(time.time())
-        if meta_data:
-            time_camera.append(camera.capture_metadata())
-        frame_list.append(frame)
-        time_log3.append(time.time())	
-        number_frame += 1
+    # フレーム取得の最大数
+    number_max_frame = 10  # 仮定: 必要なフレームの最大数
+
+    # 各フレームごとにプロセスを生成
+    for _ in range(number_max_frame):
+        # shutter_process関数に必要な引数を渡す
+        # 注意: この例ではグローバル変数の同期が考慮されていません
+        p = Process(target=shutter_process, args=(text, frame_list, number_frame, time_log, time_log2, time_log3, time_camera, meta_data))
+        processes.append(p)
+        p.start()
+    
+    # 全てのプロセスが終了するのを待つ
+    for p in processes:
+        p.join()
 
 # ムービー撮影後、画像を連結してムービーファイルを保存する。
 def movie_save():
@@ -230,6 +244,12 @@ def repeat_n_times(n, interval, function, *args):
 
     func_wrapper(0)  # 関数呼び出しを開始
 
+
+# テスト関数
+def print_message(message):
+    global timelog
+    print(message, "at", time.time() - timelog)
+    timelog = time.time()
 
 # メイン
 if __name__ == "__main__":

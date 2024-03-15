@@ -57,7 +57,7 @@ recording_completed = True
 buffers             = 4
 meta_data           = True
 queue_control       = True
-time_interval       = 0.010
+time_interval       = 0.1
 jpg_encode          = False
 
 
