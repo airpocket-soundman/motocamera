@@ -22,6 +22,7 @@ import threading
 import shutil
 import re
 from multiprocessing import Process
+import libcamera
 
 pin_shutter         = 23    # shutter timing picup 
 pin_led_red         = 24
@@ -182,6 +183,7 @@ def set_camera_mode():
     print("raw_size :", raw_width, "x", raw_height, "   rec_size :", rec_width, "x", rec_height)
     config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(rec_width, rec_height)}, raw   ={"size":(raw_width, raw_height)})
     #config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(640, 480)}, raw   ={"size":(2304, 1296)}) 
+    config["transform"] = libcamera.Transform(hflip=1, vflip=1)    
     camera.configure(config)
     camera.set_controls({"ExposureTime": exposure_time, "AnalogueGain": analogue_gain * (2 ** gain_mode)})
     camera.start()

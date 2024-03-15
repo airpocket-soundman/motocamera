@@ -1,45 +1,49 @@
-import RPi.GPIO as GPIO
+#!/usr/bin/python3
 
-pin_shutter         = 23    # shutter timing picup 
-pin_led_red         = 24
-pin_led_green       = 25
-pin_shutdown        = 8
-pin_dip1            = 7
-pin_dip2            = 1
-pin_dip3            = 12
-pin_dip4            = 16
-pin_dip5            = 20
-pin_dip6            = 21
+import time
+from threading import Thread
 
-# GPIO設定
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin_shutter,     GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_shutdown,    GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip1,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip2,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip3,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip4,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip5,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_dip6,        GPIO.IN, pull_up_down = GPIO.PUD_UP)
-GPIO.setup(pin_led_red,     GPIO.OUT)
-GPIO.setup(pin_led_green,   GPIO.OUT)
+from picamera2 import Picamera2
 
-print("pin_dip1 :",GPIO.input(pin_dip1))
-print("pin_dip2 :",GPIO.input(pin_dip2))
-print("pin_dip3 :",GPIO.input(pin_dip3))
-print("pin_dip4 :",GPIO.input(pin_dip4))
-print("pin_dip5 :",GPIO.input(pin_dip5))
-print("pin_dip6 :",GPIO.input(pin_dip6))
-print("shutter  :",GPIO.input(pin_shutter))
-print("shutdown :",GPIO.input(pin_shutdown))
+picam2 = Picamera2()
+config = picam2.create_preview_configuration(queue=False)
+picam2.configure(config)
+picam2.start()
+abort = False
 
 
-while True:
-    if GPIO.input(pin_shutter) == False:
-        GPIO.output(pin_led_green, True)
-    else:
-        GPIO.output(pin_led_green, False)
-    if GPIO.input(pin_shutdown) == False:
-        GPIO.output(pin_led_red, True)
-    else:
-        GPIO.output(pin_led_red, False)
+def thread_func(delay):
+    n = 0
+    while not abort:
+        picam2.capture_array()
+        n += 1
+        time.sleep(delay)
+    print("Thread received", n, "frames")
+
+
+delays = [0.1, 0.07, 0.15]
+
+threads = [Thread(target=thread_func, args=(d, )) for d in delays]
+
+for thread in threads:
+    thread.start()
+
+time.sleep(5)
+
+jobs = []
+for _ in range(10):
+    jobs.append(picam2.capture_metadata(wait=False))
+    time.sleep(0.01)
+times = [job.get_result()["SensorTimestamp"] for job in jobs]
+diffs = [(t1 - t0) // 1000 for t0, t1 in zip(times[:-1], times[1:])]
+print(diffs)
+if any(d < 0 for d in diffs):
+    print("Error: unexpected frame times")
+
+time.sleep(5)
+
+abort = True
+for thread in threads:
+    thread.join()
+
+picam2.stop()

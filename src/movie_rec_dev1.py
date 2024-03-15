@@ -197,18 +197,24 @@ def set_camera_mode():
         rec_height  = rec_pix[3][1]
 
     print("raw_size :", raw_width, "x", raw_height, "   rec_size :", rec_width, "x", rec_height)
-    #config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(rec_width, rec_height)}, raw   ={"size":(raw_width, raw_height)})
     config  = camera.create_still_configuration(
-        main={"format": 'RGB888', "size":(rec_width, rec_height)}, 
-        raw   ={"size":(raw_width, raw_height)},
-        buffer_count = 1,
-        #controls={"FrameRate": 128, "AnalogueGain": analogue_gain * (2 ** gain_mode)}
-        controls={"ExposureTime": exposure_time, "AnalogueGain": analogue_gain * (2 ** gain_mode)}
+        main    ={
+            "format": 'RGB888', 
+            "size":(rec_width, rec_height)
+        }, 
+        raw     ={
+            "size":(raw_width, raw_height)
+        },
+        buffer_count    = 1,
+        queue           = False,
+        controls        = {
+            "ExposureTime": exposure_time, 
+            "AnalogueGain": analogue_gain * (2 ** gain_mode),
+            "FrameDurationLimits": (100, 100000)
+        }
     )
-    #config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(640, 480)}, raw   ={"size":(2304, 1296)}) 
     config["transform"] = libcamera.Transform(hflip=1, vflip=1)
     camera.configure(config)
-    #camera.set_controls({"ExposureTime": exposure_time, "AnalogueGain": analogue_gain * (2 ** gain_mode)})
     camera.start()
 
 # シャッター開を検出した場合の処理

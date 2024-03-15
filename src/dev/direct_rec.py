@@ -22,7 +22,10 @@ from picamera2 import Picamera2
 import threading
 import shutil
 import re
+import libcamera
 
+"""
+# motocamera
 pin_shutter         = 23    # shutter timing picup 
 pin_led_red         = 24
 pin_led_green       = 25
@@ -33,13 +36,25 @@ pin_dip3            = 12
 pin_dip4            = 16
 pin_dip5            = 20
 pin_dip6            = 21
+"""
+# Bolex
+pin_shutter         = 25    # shutter timing picup 
+pin_led_red         = 15
+pin_led_green       = 18
+pin_shutdown        = 14
+pin_dip1            =  8
+pin_dip2            =  7
+pin_dip3            =  1
+pin_dip4            = 12
+pin_dip5            = 16
+pin_dip6            = 20
 
 number_still        = 0
 number_cut          = 0
 number_frame        = 0
-raw_size            = 0     #0:1640 x 1232      1:2304 x 1296      2:3280 x 2464   3:4608 x 2592  4:320 x 240   0:IMX219 cine, 1:IMX708 cine 2:IMX219 still 3:IMX708 still
+raw_size            = 1     #0:1640 x 1232      1:2304 x 1296      2:3280 x 2464   3:4608 x 2592  4:320 x 240   0:IMX219 cine, 1:IMX708 cine 2:IMX219 still 3:IMX708 still
 raw_pix             = [[1640, 1232], [2304, 1296], [3280, 2464], [4608, 2592], [320, 240]]
-rec_size            = 0     #0: 640 x  480      1: 640 x  480      2:3280 x 2464   3:4608 x 2592  4:320 x 240   4:high speed cine
+rec_size            = 4     #0: 640 x  480      1: 640 x  480      2:3280 x 2464   3:4608 x 2592  4:320 x 240   4:high speed cine
 rec_pix             = [[ 640,  480], [ 640,  480], [3208, 2464], [4608, 2592], [320, 240]]
 time_log            = []
 time_log2           = []
@@ -182,6 +197,7 @@ def set_camera_mode():
     print("raw_size :", raw_width, "x", raw_height, "   rec_size :", rec_width, "x", rec_height)
     config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(rec_width, rec_height)}, raw   ={"size":(raw_width, raw_height)})
     #config  = camera.create_preview_configuration(main={"format": 'RGB888', "size":(640, 480)}, raw   ={"size":(2304, 1296)}) 
+    config["transform"] = libcamera.Transform(hflip=1, vflip=1)
     camera.configure(config)
     camera.set_controls({"ExposureTime": exposure_time, "AnalogueGain": analogue_gain * (2 ** gain_mode)})
     camera.start()
@@ -219,9 +235,10 @@ def get_images(image_index, camera):
         time.sleep(shutter_delay_time)
         frame = camera.capture_array()
         time_log3.append(time.time())	
-        #cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame)
-        cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 10])
+        cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame)
+        #cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 10])
         time_log4.append(time.time())
+        print(image_index)
     else:
         print("recording now")
 
