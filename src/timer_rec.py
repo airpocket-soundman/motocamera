@@ -54,7 +54,7 @@ film_mode           = 0     #0:mono,    1:mono,     2:color,    3:color,
 is_shooting         = False
 recording_completed = True
 
-buffers             = 6
+buffers             = 4
 meta_data           = True
 queue_control       = True
 time_interval       = 0.010

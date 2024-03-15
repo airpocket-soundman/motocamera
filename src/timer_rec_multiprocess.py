@@ -65,7 +65,7 @@ executor = ProcessPoolExecutor(max_workers=4)  # 使用するプロセス数を�
 
 
 rec_finish_threshold_time    = 1        #sec  *detect rec button release
-number_max_frame    = 100               #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
+number_max_frame    = 500               #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
 record_fps          = 8                #MP4へ変換する際のFPS設定値
 tmp_folder_path     = "/tmp/img/"
 share_folder_path   = os.path.expanduser("~/share/")
@@ -173,7 +173,7 @@ def encode_jpeg(frame):
     if result:
         return encoded_frame
     else:
-        print("encode cant")
+        #print("encode cant")
         return None
 
 
@@ -190,7 +190,7 @@ def timer_shutter(text):
         # JPEGエンコードをマルチプロセスで実行
         future = executor.submit(encode_jpeg, frame)
         frame_list.append(future)
-        print(future)
+        #print(future)
     else:
         frame_list.append(frame)
     time_log3.append(time.time())
