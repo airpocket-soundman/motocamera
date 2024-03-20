@@ -18,10 +18,10 @@ time_log2           = []
 time_log3           = []
 frame_list          = []
 meta_data_list      = []
-exposure_time       = 1000              # 1000-100000  defo:5000
+exposure_time       = 5000              # 1000-100000  defo:5000
 analogue_gain       = 16	            # 1.0-20.0    defo:2.0
 
-buffers             = 8
+buffers             = 1
 queue_control       = False
 
 # Bolex
@@ -31,11 +31,11 @@ pin_shutter         = 25    # shutter timing picup
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pin_shutter,     GPIO.IN, pull_up_down = GPIO.PUD_UP)
 
-number_max_frame    = 50                 #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
+number_max_frame    = 32                 #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
 record_fps          = 16                #MP4へ変換する際のFPS設定値
 share_folder_path   = os.path.expanduser("~/share/")
 device_name         = "bolex"
-codec               = cv2.VideoWriter_fourcc(*'mp4v')
+codec               = cv2.VideoWriter_fourcc(*'avc1')
 camera              = Picamera2()
 
 # 撮影モードに応じてpicameraのconfigを設定する
@@ -45,7 +45,7 @@ def set_camera_mode():
 
     config  = camera.create_still_configuration(
         main    = {
-            "format"    : "RGB888", 
+            "format"    : "BGR888", 
             "size"      : (rec_width, rec_height)
         }, 
         raw     = {
@@ -94,6 +94,7 @@ def movie_save():
         sys.exit()
     for i in range(len(frame_list)):
         frame = np.array(frame_list[i])
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         video.write(frame)
     print("movie rec finished")
     video.release()
@@ -122,7 +123,7 @@ if __name__ == "__main__":
     set_camera_mode()
     
     # シャッター動作検出時のコールバック関数
-    GPIO.add_event_detect(pin_shutter,  GPIO.RISING,    callback = shutter, bouncetime = 5)
+    GPIO.add_event_detect(pin_shutter,  GPIO.RISING,    callback = shutter, bouncetime = 1)
 
     while(True):
         time.sleep(10)
