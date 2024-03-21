@@ -1,5 +1,7 @@
 # FrameDurationLimitsを動的に変更させてシンクロを狙う
-# シンクロし始めたのでこの状態で保存
+# シンクロちょっとましになったのでここで保存。
+# 根本的に見直した方がよいかも。垂直同期が出ず、シャッター裏で安定することもある。
+# カメラとラズパイのクロックの誤差を訂正して、うまくできないかな？
 
 import cv2
 import os
@@ -23,7 +25,7 @@ meta_data_list          = []
 exposure_time           = 5000              # 1000-100000  defo:5000
 analogue_gain           = 16	            # 1.0-20.0    defo:2.0
 frame_duration_limit    = 20
-buffers                 = 4
+buffers                 = 3
 queue_control           = True
 dynamic_frame_duration  = True
 v_sync_adjustment       = True
@@ -35,7 +37,7 @@ reference_time          = 0
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pin_shutter,     GPIO.IN, pull_up_down = GPIO.PUD_UP)
 
-number_max_frame        = 100                 #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
+number_max_frame        = 120                 #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
 record_fps              = 16                #MP4へ変換する際のFPS設定値
 share_folder_path       = os.path.expanduser("~/share/")
 device_name             = "bolex"
@@ -71,7 +73,7 @@ def set_camera_mode():
     camera.start()
 
 def change_frame_duration_limit():
-    global reference_time
+    global reference_time, last_shutter_duration
     deviation = 0
     if len(time_log) == 1:
         reference_time = int((time_log[-1] * 1000) - ((meta_data_list[-1]["SensorTimestamp"]) / 1000000))
@@ -81,21 +83,24 @@ def change_frame_duration_limit():
         t3 = (time_log2[-1] - time_log[-1]) * 1000
         t4 = (time_log3[-1] - time_log2[-1]) * 1000
         t5 = int((time_log[-1] * 1000) - ((meta_data_list[-1]["SensorTimestamp"]) / 1000000))
-        print(f'{t1:16.3f}' + ' / ' + f'{t2:15.3f}' + ' // ' + f'{t3:15.3f}' + ' / ' + f'{t4:12.3f}' + ' / ' + f'{reference_time - t5:10} / {(reference_time - t5) % int(t1):10}')
         int_t1 = int(t1)
         time_diff = reference_time - t5
+        print(f'{t1:16.3f}' + ' / ' + f'{t2:15.3f}' + ' // ' + f'{t3:15.3f}' + ' / ' + f'{t4:12.3f}' + ' / ' + f'{time_diff:10} / {time_diff % int_t1:10}')
+        print(t1-t2)
         if dynamic_frame_duration:
-            last_shutter_duration = int((time_log[-1] - time_log[-2]) * 1000000)
+            if len(time_log) >= 2:
+                last_shutter_duration = int((time_log[-1] - time_log[-2]) * 1000000)
             
             #垂直同期
             if v_sync_adjustment:
                 if time_diff % int_t1 < int(t1 / 2):
-                    deviation = int((time_diff % int_t1) * 100 / 2)
+                    deviation = int((time_diff % int_t1) * -100 / 4) - 400
                 elif time_diff % int_t1 >= int(t1 / 2):
-                    deviation = int((int(t1) - (time_diff % int_t1)) * -100 /2)
+                    print(int_t1-(time_diff % int_t1))
+                    deviation = int((int_t1 - (time_diff % int_t1)) * +100 / 4) - 400
 
             print(f"last_shutter_duration = {last_shutter_duration}, deviation = {deviation}")
-            camera.set_controls({"FrameDurationLimits": (last_shutter_duration + deviation, last_shutter_duration * 1000)})
+            camera.set_controls({"FrameDurationLimits": (last_shutter_duration + deviation, last_shutter_duration + deviation)})
 
 # timerを受けて画像を取得する関数
 def shutter(text):

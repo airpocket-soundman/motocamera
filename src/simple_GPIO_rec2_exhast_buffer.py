@@ -19,7 +19,7 @@ time_log3           = []
 frame_list          = []
 meta_data_list      = []
 # exposure_time       = 5000              # 1000-100000  defo:5000
-exposure_time       = 1000 # 物理シャッターとの干渉を徹底的に避ける
+exposure_time       = 5000 # 物理シャッターとの干渉を徹底的に避ける
 analogue_gain       = 16	            # 1.0-20.0    defo:2.0
 
 buffers             = 1
@@ -77,6 +77,7 @@ def shutter(text):
         # 捨てる
         request = camera.capture_request()
         request.release()
+
 
         request = camera.capture_request()
         time_log2.append(time.time())
