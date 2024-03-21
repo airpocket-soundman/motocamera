@@ -25,7 +25,7 @@ frame_duration_limit    = 20
 buffers                 = 1
 queue_control           = False
 dynamic_frame_duration  = True
-
+v_sync_adjustment       = True
 # Bolex
 pin_shutter             = 25    # shutter timing pickup
 
@@ -69,9 +69,15 @@ def set_camera_mode():
     camera.start()
 
 def change_frame_duration_limit():
+    deviation = 0
     if dynamic_frame_duration and len(time_log) > 1:
-        last_shutter_duration = (time_log[-1] - time_log[-2]) * 1000
-        camera.set_controls({"FrameDurationLimits": (last_shutter_duration * 1000, last_shutter_duration * 1000)})
+        last_shutter_duration = (time_log[-1] - time_log[-2]) * 1000000
+
+    #垂直同期
+    if v_sync_adjustment and len(time_log) > 1:
+        deviation = (time_log2[-1] - time_log[-1]) * 1000000
+
+    camera.set_controls({"FrameDurationLimits": (last_shutter_duration + deviation, last_shutter_duration * 1000)})
 
 # timerを受けて画像を取得する関数
 def shutter(text):
