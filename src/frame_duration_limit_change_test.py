@@ -17,7 +17,7 @@ picam2 = Picamera2()
 
 Duration = 60
 
-config = picam2.create_still_configuration(main={"size": (640, 480)},raw={"size":(2304,1296)}, buffer_count=4,queue=False)
+config = picam2.create_still_configuration(main={"size": (640, 480)},raw={"size":(2304,1296)}, buffer_count=4,queue=True)
 #config = picam2.create_still_configuration(main={"size": (640, 480)},raw={"size":(2304,1296)}, buffer_count=2,queue=True)
 picam2.configure(config)
 picam2.set_controls({"ExposureTime": 1000})
