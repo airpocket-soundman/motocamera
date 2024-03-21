@@ -37,6 +37,7 @@ pin_dip4            = 16
 pin_dip5            = 20
 pin_dip6            = 21
 """
+
 # Bolex
 pin_shutter         = 25    # shutter timing picup 
 pin_led_red         = 15
@@ -49,20 +50,22 @@ pin_dip4            = 12
 pin_dip5            = 16
 pin_dip6            = 20
 
+
 number_still        = 0
 number_cut          = 0
 number_frame        = 0
 raw_size            = 1     #0:1640 x 1232      1:2304 x 1296      2:3280 x 2464   3:4608 x 2592  4:320 x 240   0:IMX219 cine, 1:IMX708 cine 2:IMX219 still 3:IMX708 still
 raw_pix             = [[1640, 1232], [2304, 1296], [3280, 2464], [4608, 2592], [320, 240]]
-rec_size            = 4     #0: 640 x  480      1: 640 x  480      2:3280 x 2464   3:4608 x 2592  4:320 x 240   4:high speed cine
+rec_size            = 0     #0: 640 x  480      1: 640 x  480      2:3280 x 2464   3:4608 x 2592  4:320 x 240   4:high speed cine
 rec_pix             = [[ 640,  480], [ 640,  480], [3208, 2464], [4608, 2592], [320, 240]]
 time_log            = []
 time_log2           = []
 time_log3           = []
 time_log4           = []
-exposure_time       = 5000  # 1000-100000  defo:5000
+exposure_time       = 1000  # 1000-100000  defo:5000
 analogue_gain       = 2.0	# 1.0-20.0    defo:2.0
-shutter_delay_time  = 0 * 0.001   # シャッター動作を検出してから画像取得するまでの遅延時間 ms
+shutter_delay_time  = 5 * 0.001   # シャッター動作を検出してから画像取得するまでの遅延時間 ms
+image_list          = []
 
 threads = []
 
@@ -75,7 +78,7 @@ recording_completed = True
 
 
 rec_finish_threshold_time    = 1      #sec  *detect rec button release
-number_max_frame    = 960               #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
+number_max_frame    = 100               #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
 record_fps          = 16                #MP4へ変換する際のFPS設定値
 tmp_folder_path     = "/tmp/img/"
 share_folder_path   = os.path.expanduser("~/share/")
@@ -206,18 +209,22 @@ def set_camera_mode():
 def on_shutter_open(channel):
     global time_log, threads, number_frame, is_shooting
     time_log.append(time.time())
-    if camera_mode == 0:
-        if (number_frame <= number_max_frame and recording_completed == True):
-            is_shooting = True
-            
-            #t = threading.Thread(target = get_images, args=(number_frame, camera))    
-            #t.start()
-            #threads.append(t)
-            get_images(number_frame, camera)
-            number_frame += 1
-    
-    if camera_mode == 1:
-        get_still_image()
+    if recording_completed:
+        if camera_mode == 0:
+            if (number_frame <= number_max_frame and recording_completed == True):
+                
+                is_shooting = True
+                
+                #t = threading.Thread(target = get_images, args=(number_frame, camera))    
+                #t.start()
+                #threads.append(t)
+                get_images(number_frame, camera)
+                number_frame += 1
+        
+        if camera_mode == 1:
+            get_still_image()
+    else:
+        print("recording now")
     
 
 # シャットダウンボタンが押されたとき
@@ -230,17 +237,18 @@ def on_shutdown_button_pressed(channel):
 #ムービー用画像取得
 def get_images(image_index, camera):
     global time_log2, time_log3, time_log4
-    if recording_completed:
-        time_log2.append(time.time())
-        time.sleep(shutter_delay_time)
-        frame = camera.capture_array()
-        time_log3.append(time.time())	
-        cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame)
-        #cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 10])
-        time_log4.append(time.time())
-        print(image_index)
-    else:
-        print("recording now")
+
+    time_log2.append(time.time())
+    time.sleep(shutter_delay_time)
+    frame = camera.capture_array()
+    time_log3.append(time.time())
+    image_list.append(frame)
+    #cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame)
+    #cv2.imwrite(tmp_folder_path + "image_" + str(image_index) + ".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 10])
+    time_log4.append(time.time())
+    print(image_index)
+
+
 
 #Still写真を撮る処理
 def get_still_image():
@@ -257,7 +265,7 @@ def get_still_image():
 # ムービー撮影後、画像を連結してムービーファイルを保存する。
 def movie_save():
     GPIO.output(pin_led_red, True)
-    global number_frame, number_cut, recording_completed
+    global number_frame, number_cut, recording_completed, image_list
     recording_completed = False
     print("save movie")
     movie_file_path = share_folder_path + device_name + "{:03}".format(number_cut) + ".mp4"
@@ -271,7 +279,8 @@ def movie_save():
         print("can't be opened")
         sys.exit()
     for i in range(number_frame):
-        frame = cv2.imread(tmp_folder_path + "image_" + str(i) + ".jpg")
+        #frame = cv2.imread(tmp_folder_path + "image_" + str(i) + ".jpg")
+        frame = image_list[i]
         if film_mode == "mono":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         video.write(frame)
@@ -280,6 +289,7 @@ def movie_save():
     recording_completed = True
     number_cut += 1
     number_frame = 0
+    image_list = []
     GPIO.output(pin_led_red, False)
 
 # メイン
@@ -321,7 +331,7 @@ if __name__ == "__main__":
         else:
             if number_frame > 0:
                 movie_save()
-                for i in range(len(time_log)-1):
+                for i in range(len(time_log4)-1):
                     print(time_log[i + 1] - time_log[i],":",time_log3[i]-time_log2[i],":", time_log4[i]-time_log3[i])
                 time_log  = []
                 time_log2 = []
