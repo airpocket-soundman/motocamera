@@ -21,8 +21,8 @@ meta_data_list      = []
 exposure_time       = 5000              # 1000-100000  defo:5000
 analogue_gain       = 16	            # 1.0-20.0    defo:2.0
 
-buffers             = 1
-queue_control       = False
+buffers             = 4
+queue_control       = True
 
 # Bolex
 pin_shutter         = 25    # shutter timing picup 
@@ -31,7 +31,7 @@ pin_shutter         = 25    # shutter timing picup
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pin_shutter,     GPIO.IN, pull_up_down = GPIO.PUD_UP)
 
-number_max_frame    = 100                 #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
+number_max_frame    = 32                #連続撮影可能な最大フレーム数　とりあえず16FPS x 60sec = 960フレーム
 record_fps          = 16                #MP4へ変換する際のFPS設定値
 share_folder_path   = os.path.expanduser("~/share/")
 device_name         = "bolex"
@@ -57,7 +57,7 @@ def set_camera_mode():
         controls        = {
             #"ExposureTime"          : exposure_time, 
             "AnalogueGain"          : analogue_gain,
-            "FrameDurationLimits"   : (100, 100)
+            "FrameDurationLimits"   : (10000, 10000)
             #"FrameRate"             : 16.5
         },
         transform       = libcamera.Transform(hflip=1, vflip=1)
@@ -65,6 +65,7 @@ def set_camera_mode():
 
     camera.configure(config)
     camera.start()
+    #camera.set_controls({"FrameDurationLimits"   : (15000, 15000)})
 
 # timerを受けて画像を取得する関数
 def shutter(text):
@@ -76,8 +77,11 @@ def shutter(text):
         time_log2.append(time.time())
         frame_list.append(request.make_image("main"))
         meta_data_list.append(request.get_metadata())
+        
         request.release()
         time_log3.append(time.time())
+        camera.stop()
+        camera.start()
     else:
         movie_save()
 

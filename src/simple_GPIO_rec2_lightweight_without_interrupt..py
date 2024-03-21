@@ -136,3 +136,5 @@ if __name__ == "__main__":
     while True:
         if trigger.value:
             shutter("dummy")
+            camera.stop()
+            camera.start()
