@@ -124,7 +124,7 @@ def find_max_number_in_share_folder():
     number_still += 1
     number_cut   += 1
 
-# dipスイッチの状態から殺遺影モードを読みとる
+# dipスイッチの状態から撮影モードを読みとる
 def read_mode(channel):
     print("GPIO = ", channel)
     global camera_mode, speed_mode, gain_mode, film_mode
