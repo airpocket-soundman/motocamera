@@ -30,9 +30,15 @@ buffers                 = 3
 queue_control           = True
 dynamic_frame_duration  = True
 v_sync_adjustment       = True
+
+
+# カメラのtimestampとRPiのタイムスタンプの差。基本的にこれが一定になるように制御すれば、
+# 同じ水平位置が撮れるはず。
+reference_time          = 0     
+
+
 # Bolex
 pin_shutter             = 25    # shutter timing pickup
-reference_time          = 0
 
 # GPIO設定
 GPIO.setmode(GPIO.BCM)
