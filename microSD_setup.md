@@ -146,6 +146,14 @@ sudo nano /etc/samba/smb.confy
 ```
 sudo systemctl restart smbd
 
+## ffmpegのインストール
+mpegのメタデータ埋め込みにffmpegを使用
+python用のラッパーも入れておく
+```
+sudo apt install ffmpeg
+suod pip install ffmpeg-python
+```
+
 ## vim
 sudo apt install vim
 
