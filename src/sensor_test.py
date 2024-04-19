@@ -5,19 +5,19 @@ import time
 
 image_list  = []
 time_list   = []
-cap_width   =  640 			#4608, 2304, 1536. 1153, 640,, 1152     1240
-cap_height  =  480			#2592, 1296,  864,  648, 360,,  864      930
-raw_width   = 1640
-raw_height  = 1232
+cap_width   = 2304 			#4608, 2304, 1536. 1153, 640,, 1152     1240
+cap_height  = 1296			#2592, 1296,  864,  648, 360,,  864      930
+raw_width   = 2304
+raw_height  = 1296
 exposure_time = 5000	# 1000-100000  defo:5000
 analog_gain   = 5.0		# 1.0-20.0    defo:5.0
 
-folder_path = "/tmp/img/"
+folder_path = "/home/airpocket/share/"
 movie_file_name = "test.mp4"
 codec = cv2.VideoWriter_fourcc(*'mp4v')
 record_fps = 16
 
-test_frame_times = 100
+test_frame_times = 10
 frame_counter = 0
 
 #folder_path = "/home/airpocket/Workspace/picamera2_test/img"

@@ -28,8 +28,6 @@ dtoverlay=dwc2
 commandline.txtのrootwait とquietの間に[]の中を追記
 rootwait [modules-load=dwc2,g_ether] quiet
 
-
-
 USB SSH化推奨
 
 USB OTGするときは左側のmicro USBコネクタ
@@ -54,8 +52,8 @@ sudo reboot
 ```
 sudo apt update & sudo apt -y upgrade
 sudo apt -y install python3-dev python3-pip
-pip install picamera2
-pip install opencv-python
+sudo pip install picamera2
+sudo pip install opencv-python
 sudo apt -y install libgl1-mesa-dev
 ```
 
@@ -130,7 +128,7 @@ flask run --host=0.0.0.0
 sudo apt install samba
 mkdir /home/[user]/share
 sudo chmod 777 /home/[user]/share
-sudo nano /etc/samba/smb.confy
+sudo nano /etc/samba/smb.conf
 ```
 追記
 ```
