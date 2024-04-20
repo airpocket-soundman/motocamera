@@ -19,6 +19,7 @@ from picamera2.outputs import FfmpegOutput
 import libcamera
 import numpy as np
 import re
+import shutil
 
 
 number_cut              = 0         # 動画ファイルの連番を格納
@@ -33,13 +34,14 @@ GPIO.setup(pin_shutter,     GPIO.IN, pull_up_down = GPIO.PUD_UP)
 
 
 is_recording            = False     #録画中フラグ
-max_record_sec          = 10        # 最大撮影時間
+max_record_sec          = 45        # 最大撮影時間
 record_fps              = 16        # MP4へ変換する際のFPS設定値
+temp_folder_path        = "/tmp/"
 share_folder_path       = "/home/airpocket/share/"
 device_name             = "yashica"
 codec                   = cv2.VideoWriter_fourcc(*'avc1')
 last_shutter_time       = 0
-shutter_release_threshold_time = 2000        #msec シャッター開放判定の閾値
+shutter_release_threshold_time = 400        #msec シャッター開放判定の閾値
 recording_start_time    = 0
 
 # shareフォルダの動画と静止画のファイル番号を読み取る
@@ -89,7 +91,20 @@ def init_camera():
     )
     """
     video_config = camera.create_video_configuration(
-        main={"size": (1920, 1080)}
+        main={"size": (1920, 1080)},
+        #controls={
+        #    "ExposureTime": 1000,
+        #    "AnalogueGain": 1.0
+            #"AwbMode": "auto",
+            #"Brightness": 50,
+            #"Contrast": 15,
+            #"Saturation": 20,
+            #"Sharpness": 10,
+            #"NoiseReductionMode": "high",
+            #"FrameRate": 16
+        #}
+        transform       = libcamera.Transform(hflip=1, vflip=1),
+        buffer_count    = 8
     )
     
 
@@ -99,28 +114,66 @@ def init_camera():
 def shutter_detected(channel):
     global last_shutter_time, recording_start_time, is_recording
     current_time = int(time.perf_counter() * 1000)
-    print("detect")
+    #print("detect")
     if not is_recording:
         print("start recording")
-        movie_file_path = share_folder_path + device_name + "{:03}".format(number_cut) + ".mp4"
+        movie_file_path = temp_folder_path + device_name + "{:03}".format(number_cut) + ".mp4"
         output = FfmpegOutput(movie_file_path)
         camera.start_recording(encoder, output)
         is_recording = True
         recording_start_time = current_time
+        
     last_shutter_time = current_time
 
 def check_recording_status():
     global is_recording, number_cut
     if is_recording:
-        print("last_shutter_time:")
         current_time = int(time.perf_counter() * 1000)
+        print(str(current_time-last_shutter_time))
         if current_time - last_shutter_time > shutter_release_threshold_time or current_time - recording_start_time > max_record_sec * 1000:
             camera.stop_recording()
             camera.stop()
-            number_cut   += 1
+            
             print("stop recording")
-            print("start:" + str(recording_start_time) + "  current: " + str(current_time) + "  last: " + str(last_shutter_time) + "  video: " + str(current_time - recording_start_time)) 
+            print("start:" + str(recording_start_time) + "  diff: " + str(current_time-last_shutter_time) + "  video: " + str(current_time - recording_start_time)) 
+            temp_file_path = temp_folder_path + device_name + "{:03}".format(number_cut) + ".mp4"
+            save_file_path = share_folder_path + device_name + "{:03}".format(number_cut) + ".mp4"
+            
+            #cut_first_8_frames(temp_file_path, save_file_path)
+            #os.remove(temp_file_path)
+            
+            shutil.move(temp_file_path, save_file_path)
+
             is_recording = False
+            number_cut   += 1
+
+
+def cut_first_8_frames(input_path, output_path):
+    # ビデオキャプチャを開始
+    cap = cv2.VideoCapture(input_path)
+
+    # 出力ビデオの設定
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+
+    # 最初の8フレームをスキップ
+    for _ in range(8):
+        cap.read()
+
+    # 残りのフレームを読み込み、出力ビデオに書き込む
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        out.write(frame)
+
+    # リソースの解放
+    cap.release()
+    out.release()
+    print("finish cut")
 
 if __name__ == "__main__":
     # shareフォルダ内の動画、静止画ファイルの最大番号を取得
@@ -135,4 +188,5 @@ if __name__ == "__main__":
             check_recording_status()
             time.sleep(0.1)
     finally:
+        #camera.stop()
         GPIO.cleanup()
