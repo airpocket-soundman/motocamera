@@ -144,6 +144,30 @@ sudo nano /etc/samba/smb.conf
 ```
 sudo systemctl restart smbd
 
+共有フォルダのGitを利用する際。。。
+git: UNC host '****' access is not allowedの回避方法
+GitがUNCホスト表記を禁止しているため。
+「設定」から、Allowed UNC Hostsを検索し、「項目の追加」から使用したいホスト名を登録、VSCodeを再起動すると使用できるようになる。
+
+## 自動起動
+crontabが良い
+"""
+crontab -e
+"""
+"""
+@reboot python /path/of/file.py
+"""
+
+自動起動したpythonコードを停止するには
+"""
+ps aux | grep pytnon
+"""
+でプロセスナンバー確認して
+"""
+kill [number]
+"""
+
+
 ## ffmpegのインストール
 mpegのメタデータ埋め込みにffmpegを使用
 python用のラッパーも入れておく
