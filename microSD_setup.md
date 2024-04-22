@@ -92,7 +92,7 @@ sudo nano /etc/fstab
 ```
 以下の行を追加
 ```
-tmpfs /tmp tmpfs defaults,size=128m,noatime,mode=1777 0 0
+tmpfs /tmp tmpfs defaults,size=64m,noatime,mode=1777 0 0
 ```
 microSD上の/tmpを削除する
 ```
@@ -103,7 +103,7 @@ $ free -m
                total        used        free      shared  buff/cache   available
 Mem:             419          73         193           0         151         292
 Swap:              0           0           0
-df -h
+$ df -h
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/root        29G  1.9G   26G   7% /
 devtmpfs         80M     0   80M   0% /dev
