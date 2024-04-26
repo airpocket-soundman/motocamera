@@ -173,19 +173,21 @@ mpegのメタデータ埋め込みにffmpegを使用
 python用のラッパーも入れておく
 ```
 sudo apt install ffmpeg
-suod pip install ffmpeg-python
+sudo pip install ffmpeg-python
 ```
 
 ## vim
+"""
 sudo apt install vim
 
 vim ~/.vimrc
-
+"""
+"""
 set number
-syntax enable
-set expandtab
-set tabstop=4
-set shiftwidth=4
-
+syntax enable  
+set expandtab  
+set tabstop=4  
+set shiftwidth=4  
+"""
 ## data保存フォルダをマウントする
 FAT32もしくはexFATでフォルダをマウントすることで、Win上からも直接読み込めるデータフォルダを作成する。
