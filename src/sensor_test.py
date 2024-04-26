@@ -12,7 +12,7 @@ raw_height  = 1296
 exposure_time = 5000	# 1000-100000  defo:5000
 analog_gain   = 5.0		# 1.0-20.0    defo:5.0
 
-folder_path = "/home/airpocket/share/"
+folder_path = "/home/cinecamera/share/"
 movie_file_name = "test.mp4"
 codec = cv2.VideoWriter_fourcc(*'mp4v')
 record_fps = 16
