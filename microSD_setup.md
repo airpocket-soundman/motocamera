@@ -173,7 +173,7 @@ kill [number]
 mpegのメタデータ埋め込みにffmpegを使用
 python用のラッパーも入れておく
 ```
-sudo apt install ffmpeg
+sudo apt -y install ffmpeg
 sudo pip install ffmpeg-python
 ```
 
