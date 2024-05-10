@@ -50,9 +50,9 @@ sudo reboot
 
 # setup
 ```
-sudo apt update & sudo apt -y upgrade
+sudo apt update && sudo apt -y upgrade
 sudo apt -y install python3-dev python3-pip
-sudo pip install picamera2
+# sudo pip install picamera2
 sudo pip install opencv-python
 sudo apt -y install libgl1-mesa-dev
 ```
@@ -98,6 +98,7 @@ microSD上の/tmpを削除する
 ```
 sudo rm -rf /tmp
 ```
+ここで一度リブート
 ```
 $ free -m
                total        used        free      shared  buff/cache   available
@@ -116,7 +117,7 @@ tmpfs            42M     0   42M   0% /run/user/1000
 ```
 ## Flaskのインスト―ル
 ```
-pip install flask
+sudo pip install flask
 ```
 flaskでapp.pyを実行するには
 ```
@@ -125,7 +126,7 @@ flask run --host=0.0.0.0
 
 ## sambaサーバー
 ```
-sudo apt install samba
+sudo apt -y install samba
 mkdir /home/[user]/share
 sudo chmod 777 /home/[user]/share
 sudo nano /etc/samba/smb.conf
