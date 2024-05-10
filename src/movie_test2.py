@@ -29,9 +29,10 @@ import time
 """
 
 
-width  = 1920
-height = 1080
-
+width           = 1920
+height          = 1080
+frame_rate      = 16
+frame_buffer    = 8
 
 picam2 = Picamera2()
 #video_config = picam2.create_video_configuration()
@@ -47,15 +48,33 @@ video_config = picam2.create_video_configuration(
         "Sharpness"         :1.0,
         "NoiseReductionMode":1,
         #"ColourGains"       :(0.0, 0.0, 0),      
-        "FrameRate"         :16
+        "FrameRate"         :frame_rate
     },
-    buffer_count    = 8
+    buffer_count    = frame_buffer
 )
+
+
 picam2.configure(video_config)
+
+picam2.start()
+for i in range(4):  # 例として30フレーム破棄
+    
+    frame = picam2.capture_array()
+    #print(i)
+    time.sleep(0.01)  # フレーム取得間の遅延
+
 encoder = H264Encoder(bitrate=10000000)
 output = FfmpegOutput("test.mp4")
 
+
+
+
+#picam2.start_recording(encoder, "/dev/null")
+#time.sleep(frame_buffer/frame_rate)
+#picam2.stop_recording()
+
 picam2.start_recording(encoder, output)
+
 for i in range(10):
     print(10 - i)
     time.sleep(1)

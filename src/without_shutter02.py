@@ -37,7 +37,7 @@ is_recording            = False     #録画中フラグ
 max_record_sec          = 45        # 最大撮影時間
 record_fps              = 16        # MP4へ変換する際のFPS設定値
 temp_folder_path        = "/tmp/"
-share_folder_path       = "/home/airpocket/share/"
+share_folder_path       = "/home/cinecamera/share/"
 device_name             = "yashica"
 codec                   = cv2.VideoWriter_fourcc(*'avc1')
 last_shutter_time       = 0
@@ -133,7 +133,7 @@ def check_recording_status():
         print(str(current_time-last_shutter_time))
         if current_time - last_shutter_time > shutter_release_threshold_time or current_time - recording_start_time > max_record_sec * 1000:
             camera.stop_recording()
-            camera.stop()
+            #camera.stop()
             
             print("stop recording")
             print("start:" + str(recording_start_time) + "  diff: " + str(current_time-last_shutter_time) + "  video: " + str(current_time - recording_start_time)) 
@@ -147,6 +147,7 @@ def check_recording_status():
 
             is_recording = False
             number_cut   += 1
+            #camera.start()
 
 
 def cut_first_8_frames(input_path, output_path):
@@ -189,5 +190,5 @@ if __name__ == "__main__":
             check_recording_status()
             time.sleep(0.1)
     finally:
-        #camera.stop()
+        camera.stop()
         GPIO.cleanup()
