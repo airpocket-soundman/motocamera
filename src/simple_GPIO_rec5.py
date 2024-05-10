@@ -197,7 +197,7 @@ def print_log():
     global time_log1, time_log2, time_log3, frame_list, meta_data_list
 
     print("  frame interval / camera interval // capture request / extract data  (msec)"  )
-    for i in range(len(time_log1)-1):
+    for i in range(len(time_log1)-2):
         t1 = (time_log1[i + 1] - time_log1[i]) * 1000
         t2 = (meta_data_list[i + 1]["SensorTimestamp"] - meta_data_list[i]["SensorTimestamp"]) / 1000000
         t3 = (time_log2[i] - time_log1[i]) * 1000

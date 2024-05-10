@@ -92,18 +92,18 @@ def init_camera():
     """
     video_config = camera.create_video_configuration(
         main={"size": (1920, 1080)},
-        controls={
-            "ExposureTime"      :2000,
-            "AnalogueGain"      :1.0,
-            "AwbMode"           :False,
-            "Brightness"        :0.0,
-            "Contrast"          :1.0,
-            "Saturation"        :1.5,
-            "Sharpness"         :1.0,
-            "NoiseReductionMode":1,
-            #"ColourGains"       :(0.0, 0.0, 0),      
-            "FrameRate"         :16
-        },
+        #controls={
+        #    "ExposureTime"      :50000,
+        #    "AnalogueGain"      :1.0,
+        #    "AwbMode"           :False,
+        #    "Brightness"        :0.0,
+        #    "Contrast"          :1.0,
+        #    "Saturation"        :1.0,
+        #    "Sharpness"         :1.0,
+        #    "NoiseReductionMode":1,
+        #    #"ColourGains"       :(0.0, 0.0, 0),      
+        #    "FrameRate"         :16
+        #},
         transform       = libcamera.Transform(hflip=1, vflip=1),
         buffer_count    = 8
     )
