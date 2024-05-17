@@ -1762,7 +1762,7 @@
     )
     (pin "1" (uuid def95825-376a-4e2c-9751-ac0c457c02ce))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR013") (unit 1)
         )
@@ -1788,7 +1788,7 @@
     (pin "2" (uuid 90e94c6d-b4be-4c00-8c27-64a131c0a786))
     (pin "1" (uuid 88808a7c-4519-48e5-a919-a46ce310dfb6))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "R5") (unit 1)
         )
@@ -1850,37 +1850,9 @@
     (pin "25" (uuid 2725a3c8-46f3-47c6-9241-e3715881beb1))
     (pin "8" (uuid 978b7250-bdda-4a1f-bca2-bffb56618d73))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "J1") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "crockwork_cinecamera:LBR-123F_2") (at 53.34 88.9 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 1a083463-374a-46f2-b19d-db10465851d3)
-    (property "Reference" "U3" (at 53.34 80.01 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "LBR-123F_2" (at 53.34 82.55 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "Crockwork_Cinecamera:LBR-123F_2" (at 53.34 96.52 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "https://akizukidenshi.com/goodsaffix/lbr-123f.pdf" (at 54.61 80.01 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 4196dc20-5124-40ec-a607-4ebee23ec241))
-    (pin "2" (uuid 4ebea586-b539-496c-abc9-1677911a38ce))
-    (pin "4" (uuid 65667eb5-6c2f-4453-abd4-fb985317b301))
-    (pin "3" (uuid f8a819e9-8e48-4529-ba71-ecd34411a93a))
-    (instances
-      (project "cinemax8"
-        (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
-          (reference "U3") (unit 1)
         )
       )
     )
@@ -1903,7 +1875,7 @@
     )
     (pin "1" (uuid 41c54f84-5595-49c0-97de-03e22ea5edb2))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR011") (unit 1)
         )
@@ -1928,7 +1900,7 @@
     )
     (pin "1" (uuid fc7a49a9-c412-4a9f-b69c-08ac92802b5a))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR08") (unit 1)
         )
@@ -1953,7 +1925,7 @@
     )
     (pin "1" (uuid 425b1d67-4581-4d5f-9155-525fff103304))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR018") (unit 1)
         )
@@ -1978,7 +1950,7 @@
     )
     (pin "1" (uuid f9954970-5ea5-4e72-bdbf-f1a7671f3350))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR05") (unit 1)
         )
@@ -2004,7 +1976,7 @@
     (pin "1" (uuid c318119e-7c55-4dd1-9f9d-ac9fef80aa7a))
     (pin "2" (uuid 647c6158-ee3e-4d46-a684-d4c111c463ed))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "D2") (unit 1)
         )
@@ -2029,7 +2001,7 @@
     )
     (pin "1" (uuid 6466822d-7638-4110-ac92-6689953b51a9))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#FLG03") (unit 1)
         )
@@ -2054,7 +2026,7 @@
     )
     (pin "1" (uuid 80debc2b-e1f9-40e5-8510-9530bdc2fa9c))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR023") (unit 1)
         )
@@ -2079,7 +2051,7 @@
     )
     (pin "1" (uuid 4c1136b9-b20f-4802-97ad-9c3e4a82f95a))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR010") (unit 1)
         )
@@ -2104,7 +2076,7 @@
     )
     (pin "1" (uuid d0dbe9e2-4500-465c-9158-559d464c5e09))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR021") (unit 1)
         )
@@ -2129,9 +2101,37 @@
     )
     (pin "1" (uuid 0b309576-8575-49be-9727-b7da4c14f067))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR012") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "crockwork_cinecamera:LBR-123F_2") (at 53.34 88.9 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 5b7a6a59-c1a0-4cc6-b43e-3fd5469238fb)
+    (property "Reference" "U3" (at 53.34 80.01 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "LBR-123F_2" (at 53.34 82.55 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Crockwork_Cinecamera:LBR-123F_2" (at 53.34 96.52 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "https://akizukidenshi.com/goodsaffix/lbr-123f.pdf" (at 54.61 80.01 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "2" (uuid 26710994-d44e-46e0-80ad-c4c049b267df))
+    (pin "4" (uuid 9f475149-fa26-4de4-8996-2d428dd0cb47))
+    (pin "3" (uuid f14ae8ec-21e8-4ea8-8332-13751853ef2e))
+    (pin "1" (uuid 946b2861-3d92-4489-8144-9ef0d992fa27))
+    (instances
+      (project "yashica8_ver0.1.0"
+        (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
+          (reference "U3") (unit 1)
         )
       )
     )
@@ -2155,7 +2155,7 @@
     (pin "2" (uuid ae10c2b0-87b6-4562-8a66-fd89ade536e9))
     (pin "1" (uuid 5e4b24b6-9a55-47a2-900e-1de607724bd6))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "SW2") (unit 1)
         )
@@ -2180,7 +2180,7 @@
     )
     (pin "1" (uuid fc0990fc-fcd4-4f05-bd8d-a416d36adecc))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR07") (unit 1)
         )
@@ -2216,7 +2216,7 @@
     (pin "2" (uuid 50469ae4-3e23-46a5-bb32-b094d2d34144))
     (pin "5" (uuid 441a94f6-0129-4a9a-a6d4-6b43a549dc88))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "SW1") (unit 1)
         )
@@ -2241,7 +2241,7 @@
     )
     (pin "1" (uuid 53f03e98-f49f-44eb-a495-86f6e809eca9))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#FLG02") (unit 1)
         )
@@ -2266,7 +2266,7 @@
     )
     (pin "1" (uuid 72f746e3-cf6c-4077-9b64-45faf56d5092))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR02") (unit 1)
         )
@@ -2291,7 +2291,7 @@
     )
     (pin "1" (uuid 7b726b3a-9d00-433c-86fe-7f63d2605380))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR03") (unit 1)
         )
@@ -2317,7 +2317,7 @@
     (pin "2" (uuid cfc77d8f-0755-47e9-ab2e-ac748577a3e0))
     (pin "1" (uuid d756095f-a8de-4dea-95d1-87595d460af9))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "R4") (unit 1)
         )
@@ -2343,7 +2343,7 @@
     (pin "2" (uuid 61ab21d1-18b3-488b-94bc-de0ace431512))
     (pin "1" (uuid 9c750939-1564-40f0-96de-792dffb920e6))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "R9") (unit 1)
         )
@@ -2369,7 +2369,7 @@
     (pin "2" (uuid 0e6c94d2-44f2-47ea-8634-46c5a20e560c))
     (pin "1" (uuid 20267240-8c75-4d4c-8729-e7974af6bf87))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "R3") (unit 1)
         )
@@ -2398,7 +2398,7 @@
     (pin "4" (uuid 72d06b8c-3705-432f-b760-13d91b14cbe3))
     (pin "1" (uuid 8ee315a5-05a8-4483-879d-525f16c7c952))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "U1") (unit 1)
         )
@@ -2423,7 +2423,7 @@
     )
     (pin "1" (uuid dd285f5b-ae8d-4a33-9530-1dc84b766b55))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR04") (unit 1)
         )
@@ -2448,7 +2448,7 @@
     )
     (pin "1" (uuid a500ecc1-7dcf-4df2-b87d-d9c1c609fc97))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR016") (unit 1)
         )
@@ -2473,7 +2473,7 @@
     )
     (pin "1" (uuid 72e317a1-99ad-41c8-9b4d-0237c4582fb2))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR014") (unit 1)
         )
@@ -2498,7 +2498,7 @@
     )
     (pin "1" (uuid 5a20eb39-9db9-40f7-9138-d8fe973ef1e9))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR019") (unit 1)
         )
@@ -2523,7 +2523,7 @@
     )
     (pin "1" (uuid 3fdad25d-f9cb-4d42-8a49-2c4b2d9d5cbe))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR015") (unit 1)
         )
@@ -2549,7 +2549,7 @@
     (pin "2" (uuid cf2e63bb-29a7-48e6-829c-9b81873cf2d7))
     (pin "1" (uuid 0efe1886-b315-4541-a20a-36ca83d45ade))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "R7") (unit 1)
         )
@@ -2575,7 +2575,7 @@
     (pin "2" (uuid 10ca0d84-40a7-46c5-98dc-986b935c8f9d))
     (pin "1" (uuid 42f96366-c26d-446f-87e4-00b2ceb734b5))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "R1") (unit 1)
         )
@@ -2600,7 +2600,7 @@
     )
     (pin "1" (uuid 8622b6a5-4149-4c09-8b86-5c4de3df8e53))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR09") (unit 1)
         )
@@ -2626,7 +2626,7 @@
     (pin "2" (uuid c9df8f58-966f-4b7e-a62d-d0b1c1d4bbc6))
     (pin "1" (uuid 07cfd19e-35b4-42ff-a3d6-310df7476305))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "R6") (unit 1)
         )
@@ -2652,7 +2652,7 @@
     (pin "1" (uuid 5bf0633c-a621-4c26-9b32-b330f5e56aa0))
     (pin "2" (uuid 68ba6b7a-b649-43e5-b6b4-f471b208e3cf))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "D1") (unit 1)
         )
@@ -2677,7 +2677,7 @@
     )
     (pin "1" (uuid 79f4a657-bd40-435f-9251-88f5c777122a))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR017") (unit 1)
         )
@@ -2705,7 +2705,7 @@
     (pin "3" (uuid 8bd12f79-c2e8-41e2-8419-54392736ea89))
     (pin "2" (uuid 15c28d3b-d881-4b94-82d4-930c916c6b71))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "U2") (unit 1)
         )
@@ -2730,7 +2730,7 @@
     )
     (pin "1" (uuid a3d7ae76-7717-4f1f-9be6-ea6aac93de49))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#FLG01") (unit 1)
         )
@@ -2756,7 +2756,7 @@
     (pin "2" (uuid b0297683-3f85-4b7d-bccf-6d078f257356))
     (pin "1" (uuid 96b855c1-96ec-4f22-b8aa-c9ea0ef03667))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "R8") (unit 1)
         )
@@ -2782,7 +2782,7 @@
     (pin "2" (uuid 6fd55659-2a3c-49ce-9812-9c342864bda7))
     (pin "1" (uuid 7e54ad2b-c9ae-4a4f-a1b9-86f4b5e405fd))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "R2") (unit 1)
         )
@@ -2807,7 +2807,7 @@
     )
     (pin "1" (uuid 8653a83a-40b1-4f2a-b787-08556b5e3cc0))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR06") (unit 1)
         )
@@ -2832,7 +2832,7 @@
     )
     (pin "1" (uuid 139aecec-cc56-44ba-9a32-60172e824ff2))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR020") (unit 1)
         )
@@ -2857,7 +2857,7 @@
     )
     (pin "1" (uuid d6c7544b-456b-4fe0-a681-e7413a7fbd8a))
     (instances
-      (project "cinemax8"
+      (project "yashica8_ver0.1.0"
         (path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
           (reference "#PWR022") (unit 1)
         )
