@@ -37,7 +37,7 @@ is_recording            = False     #録画中フラグ
 max_record_sec          = 45        # 最大撮影時間
 record_fps              = 16        # MP4へ変換する際のFPS設定値
 temp_folder_path        = "/tmp/"
-share_folder_path       = "/home/airpocket/share/"
+share_folder_path       = "/home/cinecamera/share/"
 device_name             = "yashica"
 codec                   = cv2.VideoWriter_fourcc(*'avc1')
 last_shutter_time       = 0
@@ -93,16 +93,17 @@ def init_camera():
     video_config = camera.create_video_configuration(
         main={"size": (1920, 1080)},
         #controls={
-        #    "ExposureTime": 1000,
-        #    "AnalogueGain": 1.0
-            #"AwbMode": "auto",
-            #"Brightness": 50,
-            #"Contrast": 15,
-            #"Saturation": 20,
-            #"Sharpness": 10,
-            #"NoiseReductionMode": "high",
-            #"FrameRate": 16
-        #}
+        #    "ExposureTime"      :50000,
+        #    "AnalogueGain"      :1.0,
+        #    "AwbMode"           :False,
+        #    "Brightness"        :0.0,
+        #    "Contrast"          :1.0,
+        #    "Saturation"        :1.0,
+        #    "Sharpness"         :1.0,
+        #    "NoiseReductionMode":1,
+        #    #"ColourGains"       :(0.0, 0.0, 0),      
+        #    "FrameRate"         :16
+        #},
         transform       = libcamera.Transform(hflip=1, vflip=1),
         buffer_count    = 8
     )
@@ -132,7 +133,7 @@ def check_recording_status():
         print(str(current_time-last_shutter_time))
         if current_time - last_shutter_time > shutter_release_threshold_time or current_time - recording_start_time > max_record_sec * 1000:
             camera.stop_recording()
-            camera.stop()
+            #camera.stop()
             
             print("stop recording")
             print("start:" + str(recording_start_time) + "  diff: " + str(current_time-last_shutter_time) + "  video: " + str(current_time - recording_start_time)) 
@@ -146,6 +147,7 @@ def check_recording_status():
 
             is_recording = False
             number_cut   += 1
+            #camera.start()
 
 
 def cut_first_8_frames(input_path, output_path):
@@ -188,5 +190,5 @@ if __name__ == "__main__":
             check_recording_status()
             time.sleep(0.1)
     finally:
-        #camera.stop()
+        camera.stop()
         GPIO.cleanup()
