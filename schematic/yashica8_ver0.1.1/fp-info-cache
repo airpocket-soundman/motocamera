@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 23652382081693748
+=======
+23336285575223637
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -74396,13 +74400,19 @@ Texas WQFN NoLead
 47
 33
 Package_DFN_QFN
+<<<<<<< HEAD
 Texas_RTE0016D_WQFN-16-1EP_3x3mm_P0.5mm_EP0.8x0.8mm
 Texas RTE0016D WQFN, 16 Pin (https://www.ti.com/lit/ds/symlink/dac80504.pdf#page=47), generated with kicad-footprint-generator ipc_noLead_generator.py
+=======
+Texas_RTE_WQFN-16-1EP_3x3mm_P0.5mm_EP1.2x0.8mm
+Texas RTE WQFN, 16 Pin (https://www.ti.com/lit/ds/symlink/tps43060.pdf#page=40), generated with kicad-footprint-generator ipc_noLead_generator.py
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 Texas WQFN NoLead
 0
 21
 17
 Package_DFN_QFN
+<<<<<<< HEAD
 Texas_RTE0016D_WQFN-16-1EP_3x3mm_P0.5mm_EP0.8x0.8mm_ThermalVias
 Texas RTE0016D WQFN, 16 Pin (https://www.ti.com/lit/ds/symlink/dac80504.pdf#page=47), generated with kicad-footprint-generator ipc_noLead_generator.py
 Texas WQFN NoLead
@@ -74417,6 +74427,8 @@ Texas WQFN NoLead
 21
 17
 Package_DFN_QFN
+=======
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 Texas_RTE_WQFN-16-1EP_3x3mm_P0.5mm_EP1.2x0.8mm_ThermalVias
 Texas RTE WQFN, 16 Pin (https://www.ti.com/lit/ds/symlink/tps43060.pdf#page=40), generated with kicad-footprint-generator ipc_noLead_generator.py
 Texas WQFN NoLead
@@ -74473,6 +74485,7 @@ Texas WQFN NoLead
 10
 10
 Package_DFN_QFN
+<<<<<<< HEAD
 Texas_RVA_VQFN-16-1EP_3.5x3.5mm_P0.5mm_EP2.14x2.14mm
 Texas RVA VQFN, 16 Pin (https://www.ti.com/lit/pdf/MPQF232), generated with kicad-footprint-generator ipc_noLead_generator.py
 Texas VQFN NoLead
@@ -74487,6 +74500,8 @@ Texas VQFN NoLead
 26
 17
 Package_DFN_QFN
+=======
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 Texas_RVE0028A_VQFN-28-1EP_3.5x4.5mm_P0.4mm_EP2.1x3.1mm
 Texas RVE0028A VQFN, 28 Pin (http://www.ti.com/lit/ds/symlink/tps51363.pdf#page=29), generated with kicad-footprint-generator ipc_noLead_generator.py
 Texas VQFN NoLead
@@ -81046,6 +81061,7 @@ TSSOP SO
 100
 100
 Package_SO
+<<<<<<< HEAD
 Texas_DGN0008B_VSSOP-8-1EP_3x3mm_P0.65mm_EP2x3mm_Mask1.88x1.98mm
 Texas DGN0008B VSSOP, 8 Pin (https://www.ti.com/lit/ds/symlink/tps7a4101.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
 Texas VSSOP SO
@@ -81088,6 +81104,8 @@ Texas VSSOP SO
 23
 9
 Package_SO
+=======
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 Texas_DYY0016A_TSOT-23-16_4.2x2.0mm_P0.5mm
 TSSOP, 16 Pin (https://www.ti.com/lit/ds/symlink/tmux1574.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
 TSSOP SO

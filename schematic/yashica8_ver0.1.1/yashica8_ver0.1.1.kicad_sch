@@ -3842,12 +3842,15 @@
 		(uuid "809bf4ff-497d-4213-8d3b-e3b4b323f873")
 	)
 	(junction
+<<<<<<< HEAD
 		(at 232.41 123.19)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "83108a49-9d7d-4e7e-9ea5-707dc9730e6b")
 	)
 	(junction
+=======
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 		(at 104.14 83.82)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4055,6 +4058,7 @@
 	)
 	(wire
 		(pts
+<<<<<<< HEAD
 			(xy 234.95 123.19) (xy 234.95 120.65)
 		)
 		(stroke
@@ -4065,6 +4069,8 @@
 	)
 	(wire
 		(pts
+=======
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 			(xy 77.47 83.82) (xy 77.47 92.71)
 		)
 		(stroke
@@ -4575,6 +4581,7 @@
 	)
 	(wire
 		(pts
+<<<<<<< HEAD
 			(xy 232.41 123.19) (xy 234.95 123.19)
 		)
 		(stroke
@@ -4585,6 +4592,8 @@
 	)
 	(wire
 		(pts
+=======
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 			(xy 190.5 139.7) (xy 252.73 139.7)
 		)
 		(stroke
@@ -5167,7 +5176,11 @@
 				(justify left)
 			)
 		)
+<<<<<<< HEAD
 		(property "Footprint" "clock_work_camera:raspberry Pi socket 2x19"
+=======
+		(property "Footprint" "Crockwork_Cinecamera:raspberry Pi socket 2x19"
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 			(at 227.33 87.63 0)
 			(effects
 				(font
@@ -6135,7 +6148,11 @@
 				)
 			)
 		)
+<<<<<<< HEAD
 		(property "Footprint" "clock_work_camera:LBR-123F_2"
+=======
+		(property "Footprint" "Crockwork_Cinecamera:LBR-123F_2"
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 			(at 53.34 96.52 0)
 			(effects
 				(font
@@ -6639,7 +6656,11 @@
 				)
 			)
 		)
+<<<<<<< HEAD
 		(property "Footprint" "clock_work_camera:slide_switch"
+=======
+		(property "Footprint" "Crockwork_Cinecamera:slide_switch"
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 			(at 99.06 144.78 0)
 			(effects
 				(font
@@ -8058,7 +8079,11 @@
 				)
 			)
 		)
+<<<<<<< HEAD
 		(property "Footprint" "clock_work_camera:MP2307 DC-DC Board"
+=======
+		(property "Footprint" "Crockwork_Cinecamera:MP2307 DC-DC Board"
+>>>>>>> e85ee6014e5ffd903235ce3b606976049daf82dd
 			(at 73.66 144.78 0)
 			(effects
 				(font
