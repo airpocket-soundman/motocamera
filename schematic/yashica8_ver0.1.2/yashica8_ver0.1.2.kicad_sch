@@ -1326,6 +1326,267 @@
 				)
 			)
 		)
+		(symbol "crockwork_cinecamera:IS-2235-G"
+			(pin_names
+				(offset 0) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "SW"
+				(at 0 6.858 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "IS-2235-G"
+				(at 0 -8.128 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 13.97 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Slide Switch, dual pole double throw"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "switch dual-pole double-throw dpdt ON-ON"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "IS-2235-G_0_0"
+				(circle
+					(center -2.032 -5.08)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center -2.032 5.08)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 -5.08)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "IS-2235-G_0_1"
+				(circle
+					(center -2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 5.08)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "IS-2235-G_1_1"
+				(rectangle
+					(start -1.397 5.588)
+					(end -0.762 -0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(rectangle
+					(start 0.762 5.588)
+					(end 1.397 -0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(pin passive line
+					(at -5.08 5.08 0)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -5.08 0)
+					(length 2.54)
+					(name "C"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 5.08 180)
+					(length 2.54)
+					(name "C"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -5.08 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "crockwork_cinecamera:LBR-123F_2"
 			(pin_names
 				(offset 0.0254) hide)
@@ -3138,204 +3399,6 @@
 				)
 			)
 		)
-		(symbol "crockwork_cinecamera:slide_switch"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "SW"
-				(at 0 7.62 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "SS-012D0"
-				(at 0 5.08 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "slide_switch_1_0"
-				(pin passive line
-					(at -6.35 2.54 0)
-					(length 2.54)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(symbol "slide_switch_1_1"
-				(rectangle
-					(start -3.81 3.81)
-					(end 3.81 -3.81)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(circle
-					(center -1.905 -2.54)
-					(radius 0.635)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center -1.905 2.54)
-					(radius 0.635)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -3.81 -2.54) (xy -2.54 -2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -3.81 2.54) (xy -2.54 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.27 2.286) (xy 1.27 0.254)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 0) (xy 2.54 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 1.905 0)
-					(radius 0.635)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at 6.35 0 180)
-					(length 2.54)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -6.35 -2.54 0)
-					(length 2.54)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "power:+5V"
 			(power)
 			(pin_names
@@ -3878,22 +3941,34 @@
 		(uuid "b938e6d8-deea-41d1-ad29-442db8c5fdbe")
 	)
 	(junction
+		(at 110.49 152.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d6cfd7c4-ebc4-420d-b422-5c1a80b32e6c")
+	)
+	(junction
 		(at 60.96 97.79)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "db200219-3534-4884-8a10-fddaf0d2f1fd")
+	)
+	(junction
+		(at 92.71 142.24)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ed301d1d-7f86-4fb8-bc17-56a64baf54af")
 	)
 	(no_connect
 		(at 247.65 64.77)
 		(uuid "0699c5b9-a514-4052-9863-c5e18b5e8420")
 	)
 	(no_connect
-		(at 247.65 107.95)
-		(uuid "1a1061df-ef64-4e24-bd96-b4b37d138b31")
+		(at 93.98 157.48)
+		(uuid "124a3828-659b-4016-a0b3-d54ea5f469ee")
 	)
 	(no_connect
-		(at 92.71 147.32)
-		(uuid "22de5642-a1cf-4464-98db-6c32e71b3b15")
+		(at 247.65 107.95)
+		(uuid "1a1061df-ef64-4e24-bd96-b4b37d138b31")
 	)
 	(no_connect
 		(at 207.01 95.25)
@@ -3902,6 +3977,10 @@
 	(no_connect
 		(at 207.01 74.93)
 		(uuid "3b9307c3-f446-49d7-8aa4-db29a028675e")
+	)
+	(no_connect
+		(at 116.84 158.75)
+		(uuid "418ec43e-0415-40bf-9da0-32ce781a7453")
 	)
 	(no_connect
 		(at 247.65 97.79)
@@ -3952,6 +4031,10 @@
 		(uuid "c79b0110-0dc3-4a07-b566-515840678fa5")
 	)
 	(no_connect
+		(at 104.14 157.48)
+		(uuid "d42bd122-150d-49b8-ba2c-5d1c104b55ce")
+	)
+	(no_connect
 		(at 247.65 82.55)
 		(uuid "d802a6f4-349a-4a05-b8c8-bef945a56873")
 	)
@@ -3982,6 +4065,16 @@
 			(type default)
 		)
 		(uuid "0147c638-00e2-4f3f-af3f-99397e838807")
+	)
+	(wire
+		(pts
+			(xy 91.44 160.02) (xy 110.49 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "03359efc-aae7-400a-a674-25c6ae723fc3")
 	)
 	(wire
 		(pts
@@ -4055,6 +4148,16 @@
 	)
 	(wire
 		(pts
+			(xy 104.14 142.24) (xy 104.14 147.32)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14fb5605-c355-411d-a1f3-178ca8fc5071")
+	)
+	(wire
+		(pts
 			(xy 234.95 123.19) (xy 234.95 120.65)
 		)
 		(stroke
@@ -4092,6 +4195,16 @@
 			(type default)
 		)
 		(uuid "22844144-40e5-4e17-9bfa-360f57d5823d")
+	)
+	(wire
+		(pts
+			(xy 93.98 152.4) (xy 91.44 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "22b0f12c-9f0f-446a-a60b-0394c4f1a71e")
 	)
 	(wire
 		(pts
@@ -4285,6 +4398,16 @@
 	)
 	(wire
 		(pts
+			(xy 91.44 152.4) (xy 91.44 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5beef059-75a6-4583-9427-08aff29103ab")
+	)
+	(wire
+		(pts
 			(xy 93.98 44.45) (xy 93.98 50.8)
 		)
 		(stroke
@@ -4315,6 +4438,16 @@
 	)
 	(wire
 		(pts
+			(xy 92.71 142.24) (xy 104.14 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6fdc19f7-a57e-4df8-a126-e83bd90135e5")
+	)
+	(wire
+		(pts
 			(xy 154.94 132.08) (xy 175.26 132.08)
 		)
 		(stroke
@@ -4335,6 +4468,16 @@
 	)
 	(wire
 		(pts
+			(xy 92.71 147.32) (xy 92.71 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7268707a-eace-4cad-ba09-5c5144809f58")
+	)
+	(wire
+		(pts
 			(xy 255.27 90.17) (xy 255.27 142.24)
 		)
 		(stroke
@@ -4342,6 +4485,16 @@
 			(type default)
 		)
 		(uuid "72e4a179-c958-4b54-be5c-fd9d1384fcc9")
+	)
+	(wire
+		(pts
+			(xy 92.71 142.24) (xy 88.9 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "77665e7e-5f38-46e2-9fea-93eea2c0297f")
 	)
 	(wire
 		(pts
@@ -4402,6 +4555,16 @@
 			(type default)
 		)
 		(uuid "848855a5-d219-4c6a-8fc4-29b85408d7b9")
+	)
+	(wire
+		(pts
+			(xy 104.14 152.4) (xy 110.49 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "856208e7-5900-4881-bf3b-68ea2ca5568d")
 	)
 	(wire
 		(pts
@@ -4655,6 +4818,16 @@
 	)
 	(wire
 		(pts
+			(xy 110.49 152.4) (xy 110.49 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ac7eb911-46d4-4302-ba2f-fcb8e646a24d")
+	)
+	(wire
+		(pts
 			(xy 224.79 120.65) (xy 224.79 123.19)
 		)
 		(stroke
@@ -4705,7 +4878,7 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 142.24) (xy 92.71 142.24)
+			(xy 92.71 147.32) (xy 93.98 147.32)
 		)
 		(stroke
 			(width 0)
@@ -4782,16 +4955,6 @@
 			(type default)
 		)
 		(uuid "d60aab24-88c0-42e9-85f6-c4b78a0483c9")
-	)
-	(wire
-		(pts
-			(xy 105.41 144.78) (xy 110.49 144.78)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dbfafa09-c848-43f4-84f1-e0de7e43f27a")
 	)
 	(wire
 		(pts
@@ -4955,16 +5118,6 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 144.78) (xy 110.49 139.7)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fb90b947-6ccd-4e5c-9d91-bbbdfbb7062f")
-	)
-	(wire
-		(pts
 			(xy 198.12 85.09) (xy 198.12 132.08)
 		)
 		(stroke
@@ -4992,6 +5145,16 @@
 			(type default)
 		)
 		(uuid "fdf6f18a-7a45-4eeb-925c-8f3fbe443f3b")
+	)
+	(wire
+		(pts
+			(xy 110.49 160.02) (xy 110.49 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ffd36769-92c4-4cc8-9140-eca874e2fc3d")
 	)
 	(wire
 		(pts
@@ -6614,77 +6777,6 @@
 		)
 	)
 	(symbol
-		(lib_id "crockwork_cinecamera:slide_switch")
-		(at 99.06 144.78 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "815e2408-39a4-44cc-bb5c-23f45263263f")
-		(property "Reference" "SW3"
-			(at 99.06 135.89 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "SS-012D0"
-			(at 99.06 138.43 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "clock_work_camera:slide_switch"
-			(at 99.06 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 99.06 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 99.06 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "36729edc-1678-4a36-8d81-36f7162d71a7")
-		)
-		(pin "3"
-			(uuid "0c27a459-39a5-4d56-9dc1-2ad9d67dffa7")
-		)
-		(pin "2"
-			(uuid "04b84f71-0957-496a-ae7b-8db88fea40c3")
-		)
-		(instances
-			(project "yashica8_ver0.1.1"
-				(path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
-					(reference "SW3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
 		(at 69.85 97.79 90)
 		(unit 1)
@@ -6810,6 +6902,85 @@
 			(project "yashica8_ver0.1.1"
 				(path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
 					(reference "H4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "crockwork_cinecamera:IS-2235-G")
+		(at 99.06 152.4 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "93390c27-3d5d-4f07-bff9-9ca6cec3f772")
+		(property "Reference" "SW3"
+			(at 99.06 161.798 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "IS-2235-G"
+			(at 99.06 164.084 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "clock_work_camera:IS-2235-G"
+			(at 113.03 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 99.06 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Slide Switch, dual pole double throw"
+			(at 99.06 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "73136975-a6a1-44bc-bf7c-54a596c13e5a")
+		)
+		(pin "1"
+			(uuid "535370af-29c6-406f-93c4-ec329de9c3cd")
+		)
+		(pin "5"
+			(uuid "91bfb788-2bf5-49f8-9229-a252652eb379")
+		)
+		(pin "2"
+			(uuid "ea60b88c-b34a-4cfc-9766-c5dfd094767c")
+		)
+		(pin "3"
+			(uuid "2ca3b1bc-da35-4381-bd78-93f102a2126f")
+		)
+		(pin "4"
+			(uuid "0831d1e5-22cc-45db-9af8-33a2cba627bc")
+		)
+		(instances
+			(project ""
+				(path "/f6d74865-d282-4d13-b183-4c6ee03fe066"
+					(reference "SW3")
 					(unit 1)
 				)
 			)
