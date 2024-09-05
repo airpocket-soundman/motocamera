@@ -22,11 +22,32 @@ $ getconf LONG_BIT
 ```
 
 # USB SSHの有効化
+
+## bullseyeのとき
 config.txtに追記
 dtoverlay=dwc2
 
 commandline.txtのrootwait とquietの間に[]の中を追記
 rootwait [modules-load=dwc2,g_ether] quiet
+
+
+## bookwormのとき
+
+bullseyeと同じ処置に加え
+
+firstrun.shの
+```
+rm -f /boot/firstrun.sh
+```
+を、以下に書き換え
+```
+cat >/etc/network/interfaces.d/usb0 <<'GADGET'
+auto usb0
+allow-hotplug usb0
+iface usb0 inet6 auto
+GADGET
+rm -f /boot/firstrun.sh
+```
 
 USB SSH化推奨
 
