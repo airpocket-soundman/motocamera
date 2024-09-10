@@ -173,21 +173,21 @@ GitがUNCホスト表記を禁止しているため。
 
 ## 自動起動
 crontabが良い
-"""
+```
 crontab -e
-"""
-"""
+```
+```
 @reboot python /path/of/file.py
-"""
+```
 
 自動起動したpythonコードを停止するには
-"""
+```
 ps aux | grep pytnon
-"""
+```
 でプロセスナンバー確認して
-"""
+```
 kill [number]
-"""
+```
 
 
 ## ffmpegのインストール
