@@ -164,8 +164,9 @@ sudo nano /etc/samba/smb.conf
    read only = no
 
 ```
+```
 sudo systemctl restart smbd
-
+```
 共有フォルダのGitを利用する際。。。
 git: UNC host '****' access is not allowedの回避方法
 GitがUNCホスト表記を禁止しているため。
@@ -199,17 +200,17 @@ sudo pip install ffmpeg-python
 ```
 
 ## vim
-"""
+```
 sudo apt install vim
 
 vim ~/.vimrc
-"""
-"""
+```
+```
 set number
 syntax enable  
 set expandtab  
 set tabstop=4  
 set shiftwidth=4  
-"""
+```
 ## data保存フォルダをマウントする
 FAT32もしくはexFATでフォルダをマウントすることで、Win上からも直接読み込めるデータフォルダを作成する。
