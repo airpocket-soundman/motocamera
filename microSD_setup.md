@@ -8,6 +8,7 @@
 
 # OS version
 OS:Raspberry Pi OS Bullseye 64bit lite
+https://downloads.raspberrypi.com/raspios_oldstable_lite_arm64/images/raspios_oldstable_lite_arm64-2024-07-04/2024-07-04-raspios-bullseye-arm64-lite.img.xz
 
 ```
 $ lsb_release -a
